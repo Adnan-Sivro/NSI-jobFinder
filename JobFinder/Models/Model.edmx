@@ -4,12 +4,12 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="bazaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="bazaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="biografije">
           <Key>
             <PropertyRef Name="idbiografije" />
           </Key>
-          <Property Name="idbiografije" Type="int" Nullable="false" />
+          <Property Name="idbiografije" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="idposloprimac" Type="int" Nullable="false" />
           <Property Name="zanimanje" Type="varchar" MaxLength="50" />
           <Property Name="radno_iskustvo" Type="text" />
@@ -22,14 +22,14 @@
           <Key>
             <PropertyRef Name="idkategorije" />
           </Key>
-          <Property Name="idkategorije" Type="int" Nullable="false" />
+          <Property Name="idkategorije" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="naziv" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="korisnici">
           <Key>
             <PropertyRef Name="idkorisnici" />
           </Key>
-          <Property Name="idkorisnici" Type="int" Nullable="false" />
+          <Property Name="idkorisnici" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="password" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
@@ -41,7 +41,7 @@
           <Key>
             <PropertyRef Name="idlokacije" />
           </Key>
-          <Property Name="idlokacije" Type="int" Nullable="false" />
+          <Property Name="idlokacije" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="drzava" Type="varchar" MaxLength="50" />
           <Property Name="kanton" Type="varchar" MaxLength="50" />
           <Property Name="grad" Type="varchar" MaxLength="50" />
@@ -51,7 +51,7 @@
           <Key>
             <PropertyRef Name="idoglasi" />
           </Key>
-          <Property Name="idoglasi" Type="int" Nullable="false" />
+          <Property Name="idoglasi" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="idposlodavci" Type="int" Nullable="false" />
           <Property Name="naziv_pozicije" Type="varchar" MaxLength="50" />
           <Property Name="datum_objave" Type="date" />
@@ -67,8 +67,8 @@
           <Key>
             <PropertyRef Name="idposlodavci" />
           </Key>
-          <Property Name="idposlodavci" Type="int" Nullable="false" />
-          <Property Name="idkorisnici" Type="int" Nullable="false" />
+          <Property Name="idposlodavci" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idkorisnici" Type="int" />
           <Property Name="vrsta" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="djelatnost" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="naziv" Type="varchar" MaxLength="50" Nullable="false" />
@@ -84,7 +84,7 @@
           <Key>
             <PropertyRef Name="idposloprimci" />
           </Key>
-          <Property Name="idposloprimci" Type="int" Nullable="false" />
+          <Property Name="idposloprimci" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ime" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="prezime" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="datum_rodjenja" Type="date" Nullable="false" />
@@ -131,7 +131,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_poslodavci_korisnici1">
-          <End Role="korisnici" Type="Self.korisnici" Multiplicity="1" />
+          <End Role="korisnici" Type="Self.korisnici" Multiplicity="0..1" />
           <End Role="poslodavci" Type="Self.poslodavci" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="korisnici">
@@ -215,8 +215,7 @@
             <End Role="posloprimci" EntitySet="posloprimci" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="bazaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -233,7 +232,7 @@
           <Property Name="datum_biografije" Type="DateTime" Precision="0" />
           <Property Name="idkategorije" Type="Int32" />
           <NavigationProperty Name="kategorije" Relationship="Self.FK_biografije_kategorije" FromRole="biografije" ToRole="kategorije" />
-          <NavigationProperty Name="posloprimci" Relationship="Self.FK_biografije_posloprimci" FromRole="biografije" ToRole="posloprimci" />
+          <NavigationProperty Name="posloprimci" Relationship="bazaModel.FK_biografije_posloprimci" FromRole="biografije" ToRole="posloprimci" />
         </EntityType>
         <EntityType Name="kategorije">
           <Key>
@@ -244,20 +243,6 @@
           <NavigationProperty Name="biografije" Relationship="Self.FK_biografije_kategorije" FromRole="kategorije" ToRole="biografije" />
           <NavigationProperty Name="oglasi" Relationship="Self.FK_oglasi_kategorije1" FromRole="kategorije" ToRole="oglasi" />
         </EntityType>
-        <EntityType Name="korisnici">
-          <Key>
-            <PropertyRef Name="idkorisnici" />
-          </Key>
-          <Property Name="idkorisnici" Type="Int32" Nullable="false" />
-          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="tip_korisnika" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="aktivan" Type="Boolean" />
-          <Property Name="GUID" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="poslodavci" Relationship="Self.FK_poslodavci_korisnici1" FromRole="korisnici" ToRole="poslodavci" />
-          <NavigationProperty Name="posloprimci" Relationship="Self.FK_posloprimci_korisnici" FromRole="korisnici" ToRole="posloprimci" />
-        </EntityType>
         <EntityType Name="lokacije">
           <Key>
             <PropertyRef Name="idlokacije" />
@@ -267,9 +252,9 @@
           <Property Name="kanton" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="grad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="postanski_broj" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="poslodavci" Relationship="Self.FK_poslodavci_lokacije" FromRole="lokacije" ToRole="poslodavci" />
-          <NavigationProperty Name="posloprimci" Relationship="Self.FK_posloprimci_lokacije" FromRole="lokacije" ToRole="posloprimci" />
-        </EntityType>
+          <NavigationProperty Name="poslodavci" Relationship="bazaModel.FK_poslodavci_lokacije" FromRole="lokacije" ToRole="poslodavci" />
+          <NavigationProperty Name="posloprimci" Relationship="bazaModel.FK_posloprimci_lokacije" FromRole="lokacije" ToRole="posloprimci" />
+          </EntityType>
         <EntityType Name="oglasi">
           <Key>
             <PropertyRef Name="idoglasi" />
@@ -287,42 +272,6 @@
           <Property Name="tip_oglasa" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="kategorije" Relationship="Self.FK_oglasi_kategorije1" FromRole="oglasi" ToRole="kategorije" />
         </EntityType>
-        <EntityType Name="poslodavci">
-          <Key>
-            <PropertyRef Name="idposlodavci" />
-          </Key>
-          <Property Name="idposlodavci" Type="Int32" Nullable="false" />
-          <Property Name="idkorisnici" Type="Int32" Nullable="false" />
-          <Property Name="vrsta" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="djelatnost" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="naziv" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="OIB" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="idlokacije" Type="Int32" Nullable="false" />
-          <Property Name="opis" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="telefon" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="webpage" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="broj_zaposlenih" Type="Int32" />
-          <Property Name="tip_poslodavca" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="korisnici" Relationship="Self.FK_poslodavci_korisnici1" FromRole="poslodavci" ToRole="korisnici" />
-          <NavigationProperty Name="lokacije" Relationship="Self.FK_poslodavci_lokacije" FromRole="poslodavci" ToRole="lokacije" />
-        </EntityType>
-        <EntityType Name="posloprimci">
-          <Key>
-            <PropertyRef Name="idposloprimci" />
-          </Key>
-          <Property Name="idposloprimci" Type="Int32" Nullable="false" />
-          <Property Name="ime" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="prezime" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="datum_rodjenja" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="spol" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="strucna_sprema" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="telefon" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="idlokacija" Type="Int32" />
-          <Property Name="idkorisnici" Type="Int32" />
-          <NavigationProperty Name="biografije" Relationship="Self.FK_biografije_posloprimci" FromRole="posloprimci" ToRole="biografije" />
-          <NavigationProperty Name="korisnici" Relationship="Self.FK_posloprimci_korisnici" FromRole="posloprimci" ToRole="korisnici" />
-          <NavigationProperty Name="lokacije" Relationship="Self.FK_posloprimci_lokacije" FromRole="posloprimci" ToRole="lokacije" />
-        </EntityType>
         <Association Name="FK_biografije_kategorije">
           <End Role="kategorije" Type="Self.kategorije" Multiplicity="0..1" />
           <End Role="biografije" Type="Self.biografije" Multiplicity="*" />
@@ -332,18 +281,6 @@
             </Principal>
             <Dependent Role="biografije">
               <PropertyRef Name="idkategorije" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_biografije_posloprimci">
-          <End Role="posloprimci" Type="Self.posloprimci" Multiplicity="1" />
-          <End Role="biografije" Type="Self.biografije" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="posloprimci">
-              <PropertyRef Name="idposloprimci" />
-            </Principal>
-            <Dependent Role="biografije">
-              <PropertyRef Name="idposloprimac" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -359,9 +296,108 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityContainer Name="bazaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="biografije" EntityType="Self.biografije" />
+          <EntitySet Name="kategorije" EntityType="Self.kategorije" />
+          <EntitySet Name="lokacije" EntityType="Self.lokacije" />
+          <EntitySet Name="oglasi" EntityType="Self.oglasi" />
+          <AssociationSet Name="FK_biografije_kategorije" Association="Self.FK_biografije_kategorije">
+            <End Role="kategorije" EntitySet="kategorije" />
+            <End Role="biografije" EntitySet="biografije" />
+          </AssociationSet>
+          <AssociationSet Name="FK_oglasi_kategorije1" Association="Self.FK_oglasi_kategorije1">
+            <End Role="kategorije" EntitySet="kategorije" />
+            <End Role="oglasi" EntitySet="oglasi" />
+          </AssociationSet>
+          <EntitySet Name="korisnici" EntityType="bazaModel.korisnici" />
+          <EntitySet Name="poslodavci" EntityType="bazaModel.poslodavci" />
+          <EntitySet Name="posloprimci" EntityType="bazaModel.posloprimci" />
+          <AssociationSet Name="FK_biografije_posloprimci" Association="bazaModel.FK_biografije_posloprimci">
+            <End Role="posloprimci" EntitySet="posloprimci" />
+            <End Role="biografije" EntitySet="biografije" />
+          </AssociationSet>
+          <AssociationSet Name="FK_poslodavci_korisnici1" Association="bazaModel.FK_poslodavci_korisnici1">
+            <End Role="korisnici" EntitySet="korisnici" />
+            <End Role="poslodavci" EntitySet="poslodavci" />
+          </AssociationSet>
+          <AssociationSet Name="FK_posloprimci_korisnici" Association="bazaModel.FK_posloprimci_korisnici">
+            <End Role="korisnici" EntitySet="korisnici" />
+            <End Role="posloprimci" EntitySet="posloprimci" />
+          </AssociationSet>
+          <AssociationSet Name="FK_poslodavci_lokacije" Association="bazaModel.FK_poslodavci_lokacije">
+            <End Role="lokacije" EntitySet="lokacije" />
+            <End Role="poslodavci" EntitySet="poslodavci" />
+          </AssociationSet>
+          <AssociationSet Name="FK_posloprimci_lokacije" Association="bazaModel.FK_posloprimci_lokacije">
+            <End Role="lokacije" EntitySet="lokacije" />
+            <End Role="posloprimci" EntitySet="posloprimci" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="korisnici">
+          <Key>
+            <PropertyRef Name="idkorisnici" />
+          </Key>
+          <Property Name="idkorisnici" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="tip_korisnika" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="aktivan" Type="Boolean" />
+          <Property Name="GUID" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="poslodavci" Relationship="bazaModel.FK_poslodavci_korisnici1" FromRole="korisnici" ToRole="poslodavci" />
+          <NavigationProperty Name="posloprimci" Relationship="bazaModel.FK_posloprimci_korisnici" FromRole="korisnici" ToRole="posloprimci" />
+          </EntityType>
+        <EntityType Name="poslodavci">
+          <Key>
+            <PropertyRef Name="idposlodavci" />
+          </Key>
+          <Property Name="idposlodavci" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idkorisnici" Type="Int32" />
+          <Property Name="vrsta" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="djelatnost" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="naziv" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OIB" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="idlokacije" Type="Int32" Nullable="false" />
+          <Property Name="opis" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="telefon" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="webpage" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="broj_zaposlenih" Type="Int32" />
+          <Property Name="tip_poslodavca" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="korisnici" Relationship="bazaModel.FK_poslodavci_korisnici1" FromRole="poslodavci" ToRole="korisnici" />
+          <NavigationProperty Name="lokacije" Relationship="bazaModel.FK_poslodavci_lokacije" FromRole="poslodavci" ToRole="lokacije" />
+        </EntityType>
+        <EntityType Name="posloprimci">
+          <Key>
+            <PropertyRef Name="idposloprimci" />
+          </Key>
+          <Property Name="idposloprimci" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ime" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="prezime" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="datum_rodjenja" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="spol" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="strucna_sprema" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="telefon" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="idlokacija" Type="Int32" />
+          <Property Name="idkorisnici" Type="Int32" />
+          <NavigationProperty Name="biografije" Relationship="bazaModel.FK_biografije_posloprimci" FromRole="posloprimci" ToRole="biografije" />
+          <NavigationProperty Name="korisnici" Relationship="bazaModel.FK_posloprimci_korisnici" FromRole="posloprimci" ToRole="korisnici" />
+          <NavigationProperty Name="lokacije" Relationship="bazaModel.FK_posloprimci_lokacije" FromRole="posloprimci" ToRole="lokacije" />
+        </EntityType>
+        <Association Name="FK_biografije_posloprimci">
+          <End Type="bazaModel.posloprimci" Role="posloprimci" Multiplicity="1" />
+          <End Type="bazaModel.biografije" Role="biografije" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="posloprimci">
+              <PropertyRef Name="idposloprimci" />
+            </Principal>
+            <Dependent Role="biografije">
+              <PropertyRef Name="idposloprimac" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_poslodavci_korisnici1">
-          <End Role="korisnici" Type="Self.korisnici" Multiplicity="1" />
-          <End Role="poslodavci" Type="Self.poslodavci" Multiplicity="*" />
+          <End Type="bazaModel.korisnici" Role="korisnici" Multiplicity="0..1" />
+          <End Type="bazaModel.poslodavci" Role="poslodavci" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="korisnici">
               <PropertyRef Name="idkorisnici" />
@@ -372,8 +408,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_posloprimci_korisnici">
-          <End Role="korisnici" Type="Self.korisnici" Multiplicity="0..1" />
-          <End Role="posloprimci" Type="Self.posloprimci" Multiplicity="*" />
+          <End Type="bazaModel.korisnici" Role="korisnici" Multiplicity="0..1" />
+          <End Type="bazaModel.posloprimci" Role="posloprimci" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="korisnici">
               <PropertyRef Name="idkorisnici" />
@@ -384,8 +420,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_poslodavci_lokacije">
-          <End Role="lokacije" Type="Self.lokacije" Multiplicity="1" />
-          <End Role="poslodavci" Type="Self.poslodavci" Multiplicity="*" />
+          <End Type="bazaModel.lokacije" Role="lokacije" Multiplicity="1" />
+          <End Type="bazaModel.poslodavci" Role="poslodavci" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="lokacije">
               <PropertyRef Name="idlokacije" />
@@ -396,8 +432,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_posloprimci_lokacije">
-          <End Role="lokacije" Type="Self.lokacije" Multiplicity="0..1" />
-          <End Role="posloprimci" Type="Self.posloprimci" Multiplicity="*" />
+          <End Type="bazaModel.lokacije" Role="lokacije" Multiplicity="0..1" />
+          <End Type="bazaModel.posloprimci" Role="posloprimci" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="lokacije">
               <PropertyRef Name="idlokacije" />
@@ -407,44 +443,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="bazaEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="biografije" EntityType="Self.biografije" />
-          <EntitySet Name="kategorije" EntityType="Self.kategorije" />
-          <EntitySet Name="korisnici" EntityType="Self.korisnici" />
-          <EntitySet Name="lokacije" EntityType="Self.lokacije" />
-          <EntitySet Name="oglasi" EntityType="Self.oglasi" />
-          <EntitySet Name="poslodavci" EntityType="Self.poslodavci" />
-          <EntitySet Name="posloprimci" EntityType="Self.posloprimci" />
-          <AssociationSet Name="FK_biografije_kategorije" Association="Self.FK_biografije_kategorije">
-            <End Role="kategorije" EntitySet="kategorije" />
-            <End Role="biografije" EntitySet="biografije" />
-          </AssociationSet>
-          <AssociationSet Name="FK_biografije_posloprimci" Association="Self.FK_biografije_posloprimci">
-            <End Role="posloprimci" EntitySet="posloprimci" />
-            <End Role="biografije" EntitySet="biografije" />
-          </AssociationSet>
-          <AssociationSet Name="FK_oglasi_kategorije1" Association="Self.FK_oglasi_kategorije1">
-            <End Role="kategorije" EntitySet="kategorije" />
-            <End Role="oglasi" EntitySet="oglasi" />
-          </AssociationSet>
-          <AssociationSet Name="FK_poslodavci_korisnici1" Association="Self.FK_poslodavci_korisnici1">
-            <End Role="korisnici" EntitySet="korisnici" />
-            <End Role="poslodavci" EntitySet="poslodavci" />
-          </AssociationSet>
-          <AssociationSet Name="FK_posloprimci_korisnici" Association="Self.FK_posloprimci_korisnici">
-            <End Role="korisnici" EntitySet="korisnici" />
-            <End Role="posloprimci" EntitySet="posloprimci" />
-          </AssociationSet>
-          <AssociationSet Name="FK_poslodavci_lokacije" Association="Self.FK_poslodavci_lokacije">
-            <End Role="lokacije" EntitySet="lokacije" />
-            <End Role="poslodavci" EntitySet="poslodavci" />
-          </AssociationSet>
-          <AssociationSet Name="FK_posloprimci_lokacije" Association="Self.FK_posloprimci_lokacije">
-            <End Role="lokacije" EntitySet="lokacije" />
-            <End Role="posloprimci" EntitySet="posloprimci" />
-          </AssociationSet>
-        </EntityContainer>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -469,19 +468,6 @@
               <MappingFragment StoreEntitySet="kategorije">
                 <ScalarProperty Name="idkategorije" ColumnName="idkategorije" />
                 <ScalarProperty Name="naziv" ColumnName="naziv" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="korisnici">
-            <EntityTypeMapping TypeName="bazaModel.korisnici">
-              <MappingFragment StoreEntitySet="korisnici">
-                <ScalarProperty Name="idkorisnici" ColumnName="idkorisnici" />
-                <ScalarProperty Name="username" ColumnName="username" />
-                <ScalarProperty Name="password" ColumnName="password" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="tip_korisnika" ColumnName="tip_korisnika" />
-                <ScalarProperty Name="aktivan" ColumnName="aktivan" />
-                <ScalarProperty Name="GUID" ColumnName="GUID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -513,36 +499,49 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="korisnici">
+            <EntityTypeMapping TypeName="bazaModel.korisnici">
+              <MappingFragment StoreEntitySet="korisnici">
+                <ScalarProperty Name="GUID" ColumnName="GUID" />
+                <ScalarProperty Name="aktivan" ColumnName="aktivan" />
+                <ScalarProperty Name="tip_korisnika" ColumnName="tip_korisnika" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="idkorisnici" ColumnName="idkorisnici" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="poslodavci">
             <EntityTypeMapping TypeName="bazaModel.poslodavci">
               <MappingFragment StoreEntitySet="poslodavci">
-                <ScalarProperty Name="idposlodavci" ColumnName="idposlodavci" />
-                <ScalarProperty Name="idkorisnici" ColumnName="idkorisnici" />
-                <ScalarProperty Name="vrsta" ColumnName="vrsta" />
-                <ScalarProperty Name="djelatnost" ColumnName="djelatnost" />
-                <ScalarProperty Name="naziv" ColumnName="naziv" />
-                <ScalarProperty Name="OIB" ColumnName="OIB" />
-                <ScalarProperty Name="idlokacije" ColumnName="idlokacije" />
-                <ScalarProperty Name="opis" ColumnName="opis" />
-                <ScalarProperty Name="telefon" ColumnName="telefon" />
-                <ScalarProperty Name="webpage" ColumnName="webpage" />
-                <ScalarProperty Name="broj_zaposlenih" ColumnName="broj_zaposlenih" />
                 <ScalarProperty Name="tip_poslodavca" ColumnName="tip_poslodavca" />
+                <ScalarProperty Name="broj_zaposlenih" ColumnName="broj_zaposlenih" />
+                <ScalarProperty Name="webpage" ColumnName="webpage" />
+                <ScalarProperty Name="telefon" ColumnName="telefon" />
+                <ScalarProperty Name="opis" ColumnName="opis" />
+                <ScalarProperty Name="idlokacije" ColumnName="idlokacije" />
+                <ScalarProperty Name="OIB" ColumnName="OIB" />
+                <ScalarProperty Name="naziv" ColumnName="naziv" />
+                <ScalarProperty Name="djelatnost" ColumnName="djelatnost" />
+                <ScalarProperty Name="vrsta" ColumnName="vrsta" />
+                <ScalarProperty Name="idkorisnici" ColumnName="idkorisnici" />
+                <ScalarProperty Name="idposlodavci" ColumnName="idposlodavci" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="posloprimci">
             <EntityTypeMapping TypeName="bazaModel.posloprimci">
               <MappingFragment StoreEntitySet="posloprimci">
-                <ScalarProperty Name="idposloprimci" ColumnName="idposloprimci" />
-                <ScalarProperty Name="ime" ColumnName="ime" />
-                <ScalarProperty Name="prezime" ColumnName="prezime" />
-                <ScalarProperty Name="datum_rodjenja" ColumnName="datum_rodjenja" />
-                <ScalarProperty Name="spol" ColumnName="spol" />
-                <ScalarProperty Name="strucna_sprema" ColumnName="strucna_sprema" />
-                <ScalarProperty Name="telefon" ColumnName="telefon" />
-                <ScalarProperty Name="idlokacija" ColumnName="idlokacija" />
                 <ScalarProperty Name="idkorisnici" ColumnName="idkorisnici" />
+                <ScalarProperty Name="idlokacija" ColumnName="idlokacija" />
+                <ScalarProperty Name="telefon" ColumnName="telefon" />
+                <ScalarProperty Name="strucna_sprema" ColumnName="strucna_sprema" />
+                <ScalarProperty Name="spol" ColumnName="spol" />
+                <ScalarProperty Name="datum_rodjenja" ColumnName="datum_rodjenja" />
+                <ScalarProperty Name="prezime" ColumnName="prezime" />
+                <ScalarProperty Name="ime" ColumnName="ime" />
+                <ScalarProperty Name="idposloprimci" ColumnName="idposloprimci" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

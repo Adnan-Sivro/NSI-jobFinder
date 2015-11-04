@@ -15,7 +15,7 @@ namespace JobFinder.Models
     public partial class poslodavci
     {
         public int idposlodavci { get; set; }
-        public int idkorisnici { get; set; }
+        public Nullable<int> idkorisnici { get; set; }
         public string vrsta { get; set; }
         public string djelatnost { get; set; }
         public string naziv { get; set; }

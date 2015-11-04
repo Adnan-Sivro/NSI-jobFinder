@@ -27,9 +27,9 @@ namespace JobFinder.Models
     
         public DbSet<biografije> biografije { get; set; }
         public DbSet<kategorije> kategorije { get; set; }
-        public DbSet<korisnici> korisnici { get; set; }
         public DbSet<lokacije> lokacije { get; set; }
         public DbSet<oglasi> oglasi { get; set; }
+        public DbSet<korisnici> korisnici { get; set; }
         public DbSet<poslodavci> poslodavci { get; set; }
         public DbSet<posloprimci> posloprimci { get; set; }
     }

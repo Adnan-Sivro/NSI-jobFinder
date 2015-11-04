@@ -10,6 +10,8 @@ using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
 using JobFinder.Filters;
 using JobFinder.Models;
+using System.Net.Mail;
+using System.Net;
 
 namespace JobFinder.Controllers
 {
@@ -33,18 +35,62 @@ namespace JobFinder.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginModel model, string returnUrl)
+        public ActionResult Login(LoginData m, string returnUrl)
         {
-            if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
+            if (ModelState.IsValid)
             {
-                return RedirectToLocal(returnUrl);
+                bazaEntities dc = new bazaEntities();
+                var user = dc.korisnici.Where(a => a.username.Equals(m.Username) && a.password.Equals(m.Password)).FirstOrDefault();
+
+
+
+                if (user != null)
+                {
+                    var model = new LoginData();
+                    if (user.aktivan == true)
+                    {
+
+                        model.Username = user.username;
+                        model.Password = user.password;
+                        model.RememberMe = m.RememberMe;
+
+                        var authticket = new
+                            FormsAuthenticationTicket(1,
+                                user.username,
+                                DateTime.Now,
+                                DateTime.Now.AddYears(1),
+                                model.RememberMe,
+                                "",
+                                FormsAuthentication.FormsCookiePath);
+
+                        string hash = FormsAuthentication.Encrypt(authticket);
+
+                        var authcookie = new HttpCookie(FormsAuthentication.FormsCookieName, hash);
+
+                        if (authticket.IsPersistent) authcookie.Expires = authticket.Expiration;
+
+                        Response.Cookies.Add(authcookie);
+                        if (user.tip_korisnika == "admin") 
+                        {
+                            return RedirectToAction("Index", "Admin");
+                        }
+                        if (user.tip_korisnika == "poslodavac")
+                        {
+                            return RedirectToAction("Index", "Poslodavac");
+                        }
+                        return RedirectToAction("Index", "Posloprimac");
+                    }
+                    ModelState.AddModelError("", "User account is not activated.");
+                    return View(m);
+                }
+                ModelState.AddModelError("", "The user name or password provided is incorrect.");
+                return View(m);
             }
-
-            // If we got this far, something failed, redisplay form
-            ModelState.AddModelError("", "The user name or password provided is incorrect.");
-            return View(model);
+                // If we got this far, something failed, redisplay form
+                ModelState.AddModelError("", "The user name or password provided is incorrect.");
+                return View(m);
+            
         }
-
         //
         // POST: /Account/LogOff
 
@@ -52,7 +98,14 @@ namespace JobFinder.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            WebSecurity.Logout();
+            FormsAuthentication.SignOut();
+            Session.Abandon();
+
+            // clear authentication cookie
+            HttpCookie cookie1 = new HttpCookie(FormsAuthentication.FormsCookieName, "");
+            cookie1.Expires = DateTime.Now.AddYears(-1);
+            Response.Cookies.Add(cookie1);
+
 
             return RedirectToAction("Index", "Home");
         }
@@ -74,26 +127,85 @@ namespace JobFinder.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Register(RegisterModel model)
         {
-            if (ModelState.IsValid)
+
+            if (ModelState.IsValid) { 
+
+            Guid tmpGuid = Guid.NewGuid();
+            var parametri = new Dictionary<string, object>{
+                {"Username", model.UserName},
+                {"Password", model.Password},
+                {"Email", model.Password},
+                {"GUID", tmpGuid.ToString().ToLower()}
+            };
+            try
             {
-                // Attempt to register the user
-                try
+               bazaEntities dc = new bazaEntities();
+                 korisnici novikorisnik = new korisnici();
+                            novikorisnik.aktivan= false;
+                            novikorisnik.email=model.Email;
+                            novikorisnik.username=model.UserName;
+                            novikorisnik.password=model.Password; 
+                           novikorisnik.GUID=tmpGuid.ToString();
+                           if (model.tipkorisnika) 
+                           {
+                               novikorisnik.tip_korisnika = "posloprimac";
+                           }
+                           else 
+                           {
+                               novikorisnik.tip_korisnika = "poslodavac";
+                           }
+                dc.korisnici.Add(novikorisnik);
+                dc.SaveChanges();
+                korisnici u = dc.korisnici.Where(a => a.username == model.UserName).FirstOrDefault();
+             //   int ID = Convert.ToInt32(u.idkorisnici);
+           //     korisnik.iduser = ID;
+                ApiKontroler k = new ApiKontroler();
+                if (k.SendEmail("Potvrda Registracije", string.Format(@"
+                Dobro došli na našu stranicu i čestitamo na uspješnoj registraciji.
+                Da biste potvrdili registraciju, kliknite na link ispod:
+                   http://localhost:50164/Admin/PotvrdaRegistracije/{0}?guid={1}", u.idkorisnici, tmpGuid), u.email))
                 {
-                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
-                    WebSecurity.Login(model.UserName, model.Password);
-                    return RedirectToAction("Index", "Home");
+                    ViewBag.poslanaPotvrda = "Confirmation mail has been send.";
                 }
-                catch (MembershipCreateUserException e)
-                {
-                    ModelState.AddModelError("", ErrorCodeToString(e.StatusCode));
-                }
+
+
+               return View("Register",model);
+            }
+            catch (Exception ex)
+            {
+                
+                //vratiti ponovo s greškom
+                return View("Register",model);
             }
 
-            // If we got this far, something failed, redisplay form
-            return View(model);
+               
+        }
+            return View("Register",model);
         }
 
-        //
+
+        [HttpGet]
+        public ActionResult PotvrdaRegistracije(int id, string guid)
+        {
+
+            bazaEntities db = new bazaEntities();
+            korisnici u = db.korisnici.Find(id);
+            u.aktivan = true;
+            db.SaveChanges();
+            if (u.tip_korisnika == "admin")
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+            if (u.tip_korisnika == "poslodavac")
+            {
+                return RedirectToAction("Index", "Poslodavac");
+            }
+            return RedirectToAction("Index", "Posloprimac");
+        }
+    
+
+
+       
         // POST: /Account/Disassociate
 
         [HttpPost]
