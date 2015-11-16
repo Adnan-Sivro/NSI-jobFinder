@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using JobFinder.Models;
 
 namespace JobFinder.Controllers
 {
@@ -13,7 +14,10 @@ namespace JobFinder.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            OglasiKategorijeModel okm = new OglasiKategorijeModel(); 
+            bazaEntities dc = new bazaEntities();
+            okm.Kategorije = dc.kategorije.ToArray();
+            return View("Index",okm);
         }
 
     }
