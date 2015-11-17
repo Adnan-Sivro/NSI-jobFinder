@@ -17,7 +17,21 @@ namespace JobFinder.Controllers
         {
             if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated) 
             {
-                return View();
+                string ime = System.Web.HttpContext.Current.User.Identity.Name;
+                bazaEntities dc = new bazaEntities();
+                var u = dc.korisnici.Where(m => m.username == System.Web.HttpContext.Current.User.Identity.Name).FirstOrDefault();
+               
+                if (u.tip_korisnika == "admin")
+                {
+                    return RedirectToAction("Index", "Admin");
+                }
+                if (u.tip_korisnika == "poslodavac")
+                {
+                    return RedirectToAction("Index", "Poslodavac");
+                }
+                return RedirectToAction("Index", "Posloprimac");
+                
+               
             }
             else
             {

@@ -88,38 +88,30 @@
             }, "--Gender--")
 
 
+            <div style="padding-left: 35px">
+                Add hire categories
+                <ul>
+                    <li onclick="this.parentNode.removeChild(this);">
+                        <input type="hidden" name="ingredients[]" value="Cheese"/>
 
-            <ul>
-                <li onclick="this.parentNode.removeChild(this);">
-                    <input type="hidden" name="ingredients[]" value="Cheese"/>
-
-                </li>
-            </ul>
-            @Html.DropDownListFor(m=>m.kategorijeid, m.Kategorije)
+                    </li>
+                </ul>
+            </div>
+            @Html.DropDownListFor(m => m.kategorijeid, new MultiSelectList(Model.Kategorije, "idkategorije", "naziv"),"--Select category-- ")
         </div>
+
+
+       
+        <input type="submit" value="ADD JOB OFFER" id="submit">
+
     </div>
 
-            <select onchange="selectIngredient(this);">
-                <option value="Cheese">Cheese</option>
-                <option value="Olives">Olives</option>
-                <option value="Pepperoni">Pepperoni</option>
-                
-            </select>
-            <input type="submit" value="ADD JOB OFFER" id="submit">
-        </div>
-
-    
-
-
-
-
-
-                    }
+ }
                    
                 </div>
             </div>
         </div>
-    </div>
+  </div>
 
     <div id="about-us-wrapper" class="wrapper">
         <div class="pagewidth">
