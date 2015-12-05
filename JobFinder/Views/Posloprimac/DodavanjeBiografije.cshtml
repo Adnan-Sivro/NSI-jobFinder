@@ -1,90 +1,72 @@
 ﻿@model JobFinder.Models.BiografijeKategorijeModel
 
-
-
-<div class="clear"></div>
 <div id="slider-addoffer-wrapper" class="wrapper">
     <div class="pagewidth">
         <div class="slider">
             <h1>POST A <span>BIOGRAPHY</span></h1>
-
         </div>
         <div class="search-box">
-            <h1>SEARCH JOB WITH <span>YOUJOB</span></h1>
-            <form>
-                <input type="text" placeholder="SEARCHED FOR WORK" id="box1">
-                <input type="text" placeholder="POSITION" id="box2">
-                <input type="submit" value="SEARCH JOBS" id="btn-search">
-            </form>
+            @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+            {
+                <div class="row">
+                    <div class="col-md-3" style="padding-top: 35px; padding-left: 25px; font-size: 16px; color:white">
+                        Search for job with YOUJOB
+                    </div>
+                    <div class="col-md-3"><input type="text" placeholder="SEARCH FOR WORK" id="box1"></div>
+                    <div class="col-md-3"><input type="text" placeholder="POSITION" id="box2"></div>
+                    <div class="col-md-3"><input type="submit" value="SEARCH JOBS" id="btn-search"></div>
+                </div>
+            }
         </div>
-        <div class="clear"></div>
     </div>
 </div>
-<div class="clear"></div>
 <div id="post-job-wrapper" class="wrapper">
     <div class="pagewidth">
-        <p>POSITION:</p>
-        <a href="">HOME</a>
-        <a href="">JOB OFFER</a>
-        <a href="" id="last">CONSTRUCTION / SURVEYING</a>
-        <div class="clear"></div>
         <div class="left-side">
             <div class="box1">
-                <h1>FAQ</h1>
-                <ul>
-                    <li>Sed ut perspiciatis unde omnis iste natus error</li>
-                    <li>Sed ut perspiciatis unde omnis iste natus error</li>
-                    <li>Sed ut perspiciatis unde omnis iste natus error</li>
-                </ul>
-            </div>
-            <div class="box2">
-                <h1>Have any <span>questions?</span></h1>
-                <p>Sed ut perspiciatis unde omnis iste natus errorSed ut </p>
-                <div class="phone">
-                    <p class="p1">CALL / HELPLINE</p>
-                    <p class="p2">(12) <span>3456 78 910</span></p>
-                </div>
+                <h1>Great bio advices</h1>
+                <ol style="list-style-type: circle; padding-left: 0;">
+                    <li>Focus On What Makes You Unique</li>
+                    <li>Keep It Simple</li>
+                    <li>Avoid Clichés + Unnecessary Details</li>
+                    <li>If You Can’t Write To Save Your Life, Find Someone Who Can</li>
+                    <li>Update It At Least Once A Year</li>
+                </ol>
             </div>
         </div>
         <div class="right-side">
             <div class="box">
-                <h1>POST A JOB OFFER</h1>
-                @using (Html.BeginForm("DodavanjeBiografije", "Posloprimac", FormMethod.Post))
-                {
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationSummary(true)
+                <div class="add-bio-form">
+                    <h1>ADD BIOGRAPHY</h1>
+                    @using (Html.BeginForm("DodavanjeBiografije", "Posloprimac", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
 
-                    <div class="left-box">
+                        <div class="left-box">
+                            <ul>
+                                <li class="styled-select right-box">
+                                    @Html.DropDownListFor(m => m.idkategorije, new MultiSelectList(Model.Kategorije, "idkategorije", "naziv"), "--Select category-- ")
+                                </li>
 
-                        <ul>
-                            <li>
-                                @Html.TextBoxFor(m => m.Biografije.zanimanje, htmlAttributes: new { @placeholder = "Profession" })
-                            </li>
-                            <li>
-                                @Html.TextAreaFor(m => m.Biografije.kompetencije, htmlAttributes: new {@placeholder = "Competences"})
-                            </li>
-                            <li>
-                                @Html.TextBoxFor(m => m.Biografije.idealan_posao, htmlAttributes: new { @placeholder = "Ideal job" })
-                            </li>
-                            <li>
-                                @Html.TextAreaFor(m => m.Biografije.radno_iskustvo, htmlAttributes: new { @placeholder = "Work experience" })
-                            </li>
-      
-                        </ul>
-                    </div>
-                    <div class="right-box">
-                        <div class="styled-select">
-                          
-                            @Html.DropDownListFor(m => m.idkategorije, new MultiSelectList(Model.Kategorije, "idkategorije", "naziv"), "--Select category-- ")
+                                <li>@Html.LabelFor(m => m.Biografije.idealan_posao)</li>
+                                <li>@Html.TextBoxFor(m => m.Biografije.idealan_posao)</li>
+                                
+                                <li>@Html.LabelFor(m => m.Biografije.zanimanje)</li>
+                                <li>@Html.TextBoxFor(m => m.Biografije.zanimanje)</li>
+                                
+                                <li>@Html.LabelFor(m => m.Biografije.kompetencije)</li>
+                                <li>@Html.TextAreaFor(m => m.Biografije.kompetencije)</li>
+                                
+                                <li>@Html.LabelFor(m => m.Biografije.radno_iskustvo)</li>
+                                <li>@Html.TextAreaFor(m => m.Biografije.radno_iskustvo)</li>
+                            </ul>
+                            <div class="pull-right">
+                                <input type="submit" value="ADD BIOGRAPHY" id="submit" style="margin-left: 35px;margin-top: 15px;background:#257fd2;color: #fff;border: 1px solid #257fd2;font-size: 12px;border-radius: 3px;padding: 12px 53px">
+                            </div>
                         </div>
-
-
-
-                        <input type="submit" value="ADD BIOGRAPHY" id="submit">
-
-                    </div>
-
-                }
+                    }
+                </div>
 
             </div>
         </div>

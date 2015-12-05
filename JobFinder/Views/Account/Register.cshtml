@@ -3,48 +3,41 @@
     ViewBag.Title = "Register";
 }
 
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-    <h2>Create a new account.</h2>
-</hgroup>
-<h1 style="color:blue">@ViewBag.poslanaPotvrda</h1>
-@using (Html.BeginForm()) {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary()
+<section id="registerForm" class="login-reg-content">
+    <hgroup class="title">
+        <p>Create a new account</p>
+    </hgroup>
+    <p style="color:blue">@ViewBag.poslanaPotvrda</p>
+    <p style="color:red">@ViewBag.errorOccured</p>
+    @*actionName, controllerName*@
+    @using (Html.BeginForm("ContinueRegistration", "Account"))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary()
 
-    <fieldset>
-        <legend>Registration Form</legend>
-        <ol>
-            <li>
-                @Html.LabelFor(m => m.UserName)
-                @Html.TextBoxFor(m => m.UserName)
-            
-            </li>
-            <li>
-                @Html.LabelFor(m => m.Email)
-                @Html.TextBoxFor(m => m.Email)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.Password)
-                @Html.PasswordFor(m => m.Password)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.ConfirmPassword)
-                @Html.PasswordFor(m => m.ConfirmPassword)
-            </li>
+        <fieldset style="width:300px">
+            <legend>Registration Form</legend>
             <ol>
-                <li>
-                    @Html.LabelFor(m => m.tipkorisnika)
-                    @Html.RadioButtonFor(m => m.tipkorisnika, true) Posloprimac
-                </li>
-                <li>
-                    @Html.RadioButtonFor(m => m.tipkorisnika, false) Poslodavac
-                </li>
+                <li class="form-title">@Html.LabelFor(m => m.UserName)</li>
+                <li>@Html.TextBoxFor(m => m.UserName)</li>
+
+                <li class="form-title">@Html.LabelFor(m => m.Email)</li>
+                <li>@Html.TextBoxFor(m => m.Email)</li>
+
+                <li class="form-title">@Html.LabelFor(m => m.Password)</li>
+                <li>@Html.PasswordFor(m => m.Password)</li>
+
+                <li class="form-title">@Html.LabelFor(m => m.ConfirmPassword)</li>
+                <li>@Html.PasswordFor(m => m.ConfirmPassword)</li>
+
+                <li class="form-title">@Html.LabelFor(m => m.tipkorisnika)</li>
+                <li class="radio-min">@Html.RadioButtonFor(m => m.tipkorisnika, true) Employee</li>
+                <li class="radio-min">@Html.RadioButtonFor(m => m.tipkorisnika, false) Employer</li>
             </ol>
-        </ol>
-        <input type="submit" value="Register" />
-    </fieldset>
-}
+            <input type="submit" value="Next" class="btn btn-primary pull-right" />
+        </fieldset>
+    }
+</section>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

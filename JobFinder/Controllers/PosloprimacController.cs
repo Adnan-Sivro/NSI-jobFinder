@@ -39,9 +39,9 @@ namespace JobFinder.Controllers
                 bazaEntities dc = new bazaEntities();
 
                 string ime = System.Web.HttpContext.Current.User.Identity.Name;
-                var posloprimac =
-                    dc.posloprimci.Where(m => m.korisnici.username == System.Web.HttpContext.Current.User.Identity.Name)
-                        .FirstOrDefault();
+                var idKorisnika = dc.korisnici.Where(m => m.username == System.Web.HttpContext.Current.User.Identity.Name).Select(x => x.idkorisnici).FirstOrDefault();
+                var posloprimac = dc.posloprimci.Where(x => x.idkorisnici == idKorisnika).FirstOrDefault();
+
                 dc.biografije.Add(new biografije()
                 {
                     datum_biografije = DateTime.Now,
@@ -53,14 +53,15 @@ namespace JobFinder.Controllers
                     zanimanje = bdm.Biografije.zanimanje
                 });
                 dc.SaveChanges();
+                bdm = new BiografijeKategorijeModel();
                 bdm.Kategorije = dc.kategorije.ToArray();
             }
             catch (Exception exception)
             {
                 return View();
             }
-           
-            return View(bdm);
+
+            return View("DodavanjeBiografije", bdm);
         }
     }
 }

@@ -5,8 +5,7 @@
 }
 
 body {
-    background-color: #fff;
-    border-top: solid 10px #000;
+    background-color: #E1E1E1 !important;
     color: #333;
     font-size: .85em;
     font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
@@ -34,6 +33,10 @@ a {
 header, footer, hgroup,
 nav, section {
     display: block;
+}
+
+.nav-menu{
+    padding-top: 85px;
 }
 
 mark {
@@ -101,13 +104,13 @@ h5, h6 {
 #body {
     background-color: #efeeef;
     clear: both;
-    padding-bottom: 35px;
+    /*padding-bottom: 35px;
+    padding-top: 35px;*/
 }
 
     .main-content {
-        background: url("../Images/accent.png") no-repeat;
+        /*background: url("../Images/accent.png") no-repeat;*/
         padding-left: 10px;
-        padding-top: 30px;
     }
 
     .featured + .main-content {
@@ -153,7 +156,6 @@ footer {
 }
 
     #login a {
-        background-color: #d3dce0;
         margin-left: 10px;
         margin-right: 3px;
         padding: 2px 3px;
@@ -328,11 +330,37 @@ aside {
     font-weight: 700;
 }
 
+/*register page*/
+#registerForm {
+    float: left;
+}
+
+    #registerForm .validation-error {
+        display: block;
+        margin-left: 15px;
+    }
+
+    #registerForm .validation-summary-errors ul {
+        margin: 0;
+        padding: 0;
+    }
+
+    #registerForm .validation-summary-errors li {
+        display: inline;
+        list-style: none;
+        margin: 0;
+    }
+
+    #registerForm input[type="checkbox"],
+    #registerForm input[type="submit"],
+    #registerForm input[type="button"],
+    #registerForm button {
+        width: auto;
+    }
+
 /* login page */
 #loginForm {
-    border-right: solid 2px #c8c8c8;
     float: left;
-    width: 55%;
 }
 
     #loginForm .validation-error {
@@ -349,10 +377,6 @@ aside {
         display: inline;
         list-style: none;
         margin: 0;
-    }
-
-    #loginForm input {
-        width: 250px;
     }
 
     #loginForm input[type="checkbox"],
@@ -452,8 +476,8 @@ textarea {
     input[type="submit"],
     input[type="button"],
     button {
-        background-color: #d3dce0;
-        border: 1px solid #787878;
+        /*background-color: #d3dce0;
+        border: 1px solid #787878;*/
         cursor: pointer;
         font-size: 1.2em;
         font-weight: 600;
@@ -753,4 +777,28 @@ tr.pager td {
         footer p {
             margin: 0;
         }
+}
+.form-title{
+    padding-bottom: 0px;
+}
+.form-title label {
+    margin-bottom: 0px;
+    margin-top: 5px;
+}
+.radio-min input{
+    width: 20px;
+}
+.register-link{
+    font-weight: bold;
+}
+.login-reg-content {
+        padding: 10px 350px 10px 350px;
+        background-color: #E1E1E1 !important;
+        margin-top: 35px;
+        margin-bottom: 35px;
+}
+.add-bio-form{
+    background-color: #E1E1E1 !important;
+    height: 1075px;
+    margin-bottom: 20px;
 }

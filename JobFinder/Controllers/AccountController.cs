@@ -42,8 +42,6 @@ namespace JobFinder.Controllers
                 bazaEntities dc = new bazaEntities();
                 var user = dc.korisnici.Where(a => a.username.Equals(m.Username) && a.password.Equals(m.Password)).FirstOrDefault();
 
-
-
                 if (user != null)
                 {
                     var model = new LoginData();
@@ -119,75 +117,160 @@ namespace JobFinder.Controllers
             return View();
         }
 
-        //
-        // POST: /Account/Register
-
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(RegisterModel model)
+        public ActionResult ContinueRegistration(RegisterModel model)
         {
+            if (model.tipkorisnika){
+                RegisterEmployeeModel employeeModel = new RegisterEmployeeModel(model);
 
-            if (ModelState.IsValid) { 
-
-            Guid tmpGuid = Guid.NewGuid();
-            var parametri = new Dictionary<string, object>{
-                {"Username", model.UserName},
-                {"Password", model.Password},
-                {"Email", model.Password},
-                {"GUID", tmpGuid.ToString().ToLower()}
-            };
-            try
-            {
-               bazaEntities dc = new bazaEntities();
-                 korisnici novikorisnik = new korisnici();
-                            novikorisnik.aktivan= false;
-                            novikorisnik.email=model.Email;
-                            novikorisnik.username=model.UserName;
-                            novikorisnik.password=model.Password; 
-                           novikorisnik.GUID=tmpGuid.ToString();
-                           if (model.tipkorisnika) 
-                           {
-                               novikorisnik.tip_korisnika = "posloprimac";
-                           }
-                           else 
-                           {
-                               novikorisnik.tip_korisnika = "poslodavac";
-                           }
-                dc.korisnici.Add(novikorisnik);
-                dc.SaveChanges();
-                korisnici u = dc.korisnici.Where(a => a.username == model.UserName).FirstOrDefault();
-             //   int ID = Convert.ToInt32(u.idkorisnici);
-           //     korisnik.iduser = ID;
-                ApiKontroler k = new ApiKontroler();
-                if (k.SendEmail("Potvrda Registracije", string.Format(@"
-                Dobro došli na našu stranicu i čestitamo na uspješnoj registraciji.
-                Da biste potvrdili registraciju, kliknite na link ispod:
-                   http://localhost:50164/Admin/PotvrdaRegistracije/{0}?guid={1}", u.idkorisnici, tmpGuid), u.email))
-                {
-                    ViewBag.poslanaPotvrda = "Confirmation mail has been send.";
-                }
-
-
-               return View("Register",model);
+                return View("ContinueRegistrationEmployee", employeeModel);
             }
-            catch (Exception ex)
+            else
             {
-                
-                //vratiti ponovo s greškom
-                return View("Register",model);
+                RegisterEmployerModel employerModel = new RegisterEmployerModel(model);
+                return View("ContinueRegistrationEmployer", employerModel);
             }
-
-               
         }
-            return View("Register",model);
+
+        //
+        // POST: /Account/Register
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult RegisterEmployee(RegisterEmployeeModel model)
+        {
+            if (ModelState.IsValid) 
+            { 
+                Guid tmpGuid = Guid.NewGuid();
+                try
+                {
+                    bazaEntities dc = new bazaEntities();
+                    korisnici novikorisnik = new korisnici
+                    {
+                        aktivan = false,
+                        email = model.Email,
+                        username = model.UserName,
+                        password = model.Password,
+                        GUID = tmpGuid.ToString(),
+                        tip_korisnika = "posloprimac"
+                    };
+                    dc.korisnici.Add(novikorisnik);
+                    dc.SaveChanges();
+                    var idKorisnika = dc.korisnici.Where(x => x.username == model.UserName).Select(x => x.idkorisnici).FirstOrDefault();
+                    posloprimci noviPosloprimac = new posloprimci
+                    {
+                        datum_rodjenja = model.DatumRodjenja,
+                        idkorisnici = idKorisnika,
+                        ime = model.Ime,
+                        prezime = model.Prezime,
+                        spol = model.Spol,
+                        strucna_sprema = model.StrucnaSprema,
+                        telefon = model.Telefon
+                    };
+                    dc.posloprimci.Add(noviPosloprimac);
+                    dc.SaveChanges();
+                    
+                    ApiKontroler k = new ApiKontroler();
+                    if (k.SendEmail("Potvrda Registracije", string.Format(@"
+                    Dobro došli na našu stranicu i čestitamo na uspješnoj registraciji.
+                    Da biste potvrdili registraciju, kliknite na link ispod:
+                       http://localhost:50164/Admin/PotvrdaRegistracije/{0}?guid={1}", idKorisnika, tmpGuid), model.Email))
+                    {
+                        ViewBag.poslanaPotvrda = "Confirmation mail has been sent.";
+                    }
+
+                    return RedirectToAction("Login");
+                }
+                catch (Exception ex)
+                {                
+                    //vratiti ponovo s greškom
+                    ViewBag.errorOccured = "An error occured. Please try again";
+                    return View("ContinueRegistrationEmployee",model);
+                }
+            }
+            return View("ContinueRegistrationEmployee", model);
+        }
+
+        //
+        // POST: /Account/Register
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult RegisterEmployer(RegisterEmployerModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Guid tmpGuid = Guid.NewGuid();
+                try
+                {
+                    bazaEntities dc = new bazaEntities();
+                    korisnici novikorisnik = new korisnici
+                    {
+                        aktivan = false,
+                        email = model.Email,
+                        username = model.UserName,
+                        password = model.Password,
+                        GUID = tmpGuid.ToString(),
+                        tip_korisnika = "poslodavac"
+                    };
+                    dc.korisnici.Add(novikorisnik);
+                    dc.SaveChanges();
+
+                    lokacije lokacija = new lokacije()
+                    {
+                        drzava = model.Drzava,
+                        grad = model.Grad
+                    };
+                    var idLokacije = dc.lokacije.Where(x => x.drzava == lokacija.drzava && x.grad == lokacija.grad).Select(x => x.idlokacije).FirstOrDefault();
+                    if(idLokacije == 0)
+                    {
+                        dc.lokacije.Add(lokacija);
+                        idLokacije = dc.lokacije.Where(x => x.drzava == lokacija.drzava && x.grad == lokacija.grad).Select(x => x.idlokacije).FirstOrDefault();
+                    }
+
+                    var idKorisnika = dc.korisnici.Where(x => x.username == model.UserName).Select(x => x.idkorisnici).FirstOrDefault();
+                    poslodavci noviPoslodavac = new poslodavci
+                    {
+                        telefon = model.Telefon,
+                        broj_zaposlenih = model.BrojZaposlenih,
+                        djelatnost = model.Djelatnost,
+                        idkorisnici = idKorisnika,
+                        naziv = model.Naziv,
+                        OIB = model.OIB,
+                        opis = model.Opis,
+                        vrsta = model.Vrsta,
+                        webpage = model.Webpage,
+                        idlokacije = idLokacije
+                    };
+                    dc.poslodavci.Add(noviPoslodavac);
+                    dc.SaveChanges();
+
+                    ApiKontroler k = new ApiKontroler();
+                    if (k.SendEmail("Potvrda Registracije", string.Format(@"
+                    Dobro došli na našu stranicu i čestitamo na uspješnoj registraciji.
+                    Da biste potvrdili registraciju, kliknite na link ispod:
+                       http://localhost:50164/Admin/PotvrdaRegistracije/{0}?guid={1}", idKorisnika, tmpGuid), model.Email))
+                    {
+                        ViewBag.poslanaPotvrda = "Confirmation mail has been sent.";
+                    }
+                    return RedirectToAction("Login");
+                }
+                catch (Exception ex)
+                {
+                    //vratiti ponovo s greškom
+                    ViewBag.errorOccured = "An error occured. Please try again";
+                    return View("ContinueRegistrationEmployer", model);
+                }
+            }
+            return View("ContinueRegistrationEmployer", model);
         }
 
 
         [HttpGet]
         public ActionResult PotvrdaRegistracije(int id, string guid)
         {
-
             bazaEntities db = new bazaEntities();
             korisnici u = db.korisnici.Find(id);
             u.aktivan = true;
@@ -202,9 +285,6 @@ namespace JobFinder.Controllers
             }
             return RedirectToAction("Index", "Posloprimac");
         }
-    
-
-
        
         // POST: /Account/Disassociate
 

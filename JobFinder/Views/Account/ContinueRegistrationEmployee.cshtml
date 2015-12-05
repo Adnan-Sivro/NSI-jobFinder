@@ -1,0 +1,56 @@
+﻿@model JobFinder.Models.RegisterEmployeeModel
+@{
+    ViewBag.Title = "Continue Registration For Employee";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section id="registerForm" class="login-reg-content">
+    <hgroup class="title">
+        <p>Enter additional information</p>
+    </hgroup>
+    <p style="color:blue">@ViewBag.poslanaPotvrda</p>
+    <p style="color:red">@ViewBag.errorOccured</p>
+    @using (Html.BeginForm("RegisterEmployee", "Account", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary()
+        //TODO : Figure out how to do this without hidden fields
+        @Html.HiddenFor(m => m.UserName)
+        @Html.HiddenFor(m => m.Password)
+        @Html.HiddenFor(m => m.Email)
+        <fieldset style="width:300px">
+            <legend>Additional information</legend>
+            <ol>
+                <li class="form-title">@Html.LabelFor(m => m.Ime)</li>
+                <li>@Html.TextBoxFor(m => m.Ime)</li>
+
+                <li class="form-title">@Html.LabelFor(m => m.Prezime)</li>
+                <li>@Html.TextBoxFor(m => m.Prezime)</li>
+
+                <li class="form-title">@Html.LabelFor(m => m.DatumRodjenja)</li>
+                <li>@Html.TextBoxFor(m => m.DatumRodjenja, new { @class = "form-control datepicker" })</li>               
+
+                <li class="form-title">@Html.LabelFor(m => m.Spol)</li>
+                <li class="radio-min">@Html.RadioButtonFor(m => m.Spol, "zenski") Female</li>
+                <li class="radio-min">@Html.RadioButtonFor(m => m.Spol, "muski") Male</li>
+
+                <li class="form-title">@Html.LabelFor(m => m.StrucnaSprema)</li>
+                <li>@Html.TextBoxFor(m => m.StrucnaSprema)</li>
+
+                <li class="form-title">@Html.LabelFor(m => m.Telefon)</li>
+                <li>@Html.TextBoxFor(m => m.Telefon)</li>
+            </ol>
+            <input type="submit" value="Register" class="btn btn-success pull-right" />
+        </fieldset>
+    }
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script type="text/javascript">
+    $(document).ready(function () { // will trigger when the document is ready
+        $('#DatumRodjenja').datepicker(); //Initialise any date pickers
+    });
+</script>

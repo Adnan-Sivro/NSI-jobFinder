@@ -6,26 +6,27 @@
         <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700' rel='stylesheet' type='text/css' />
         <link href="~/Content/assets/styles/Reset.css" rel="stylesheet" type="text/css" />
         <link href="~/Content/assets/styles/base.css" rel="stylesheet" type="text/css" />
-
-        <script src="~/Content/assets/plugins/jquery-1.11.1.min.js"></script>
+        @Scripts.Render("~/bundles/jquery")
         <script src="~/Content/assets/plugins/jquery-migrate-1.2.1.min.js"></script>
-
         <script src="~/Content/assets/plugins/jquery.cycle2.min.js"></script>
         <script src="~/Content/assets/plugins/jquery.cycle2.carousel.min.js"></script>
+        <script src="~/Scripts/angular.min.js"></script>
+        <link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+        
         <title>@ViewBag.Title - JobFinder</title>
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <meta name="viewport" content="width=device-width" />
         @Styles.Render("~/Content/css")
+        @Styles.Render("~/Bootstrap/css")
         @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/Bootstrap")
     </head>
     <body>
         <header>
             <div class="content-wrapper">
                 <div class="float-left">
-
                     <p class="site-title">
                         <a href="@Url.Action("Index", "Home")">
-
                             <img src="~/Images/logo.jpg" />
                         </a>
                     </p>
@@ -34,7 +35,7 @@
                     <section id="login">
                         @Html.Partial("_LoginPartial")
                     </section>
-                    <nav>
+                    <nav class="nav-menu">
                         <ul id="menu">
                             <li>@Html.ActionLink("Home", "Index", "Home")</li>
                             <li>@Html.ActionLink("About", "About", "Home")</li>
@@ -53,12 +54,10 @@
         <footer>
             <div class="content-wrapper">
                 <div class="float-left">
-                    <p>&copy; @DateTime.Now.Year - My ASP.NET MVC Application</p>
+                    <p>NSI Job Finder</p>
                 </div>
             </div>
         </footer>
-
-        @Scripts.Render("~/bundles/jquery")
         @RenderSection("scripts", required: false)
     </body>
 </html>

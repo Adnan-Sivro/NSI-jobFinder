@@ -1,0 +1,61 @@
+﻿@model JobFinder.Models.RegisterEmployerModel
+@{
+    ViewBag.Title = "Continue Registration For Employer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section id="registerForm" class="login-reg-content">
+    <hgroup class="title">
+        <p>Enter additional information</p>
+    </hgroup>
+    <p style="color:blue">@ViewBag.poslanaPotvrda</p>
+    <p style="color:red">@ViewBag.errorOccured</p>
+    @using (Html.BeginForm("RegisterEmployer", "Account", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary()
+        //TODO : Figure out how to do this without hidden fields
+        @Html.HiddenFor(m => m.UserName)
+        @Html.HiddenFor(m => m.Password)
+        @Html.HiddenFor(m => m.Email)
+        <fieldset style="width:300px">
+            <legend>Additional information</legend>
+            <ol>
+                <li class="form-title">@Html.LabelFor(m => m.Naziv)</li>
+                <li>@Html.TextBoxFor(m => m.Naziv)</li>
+
+                <li class="form-title">@Html.LabelFor(m => m.Vrsta)</li>
+                <li>@Html.TextBoxFor(m => m.Vrsta)</li>
+
+                <li class="form-title">@Html.LabelFor(m => m.Djelatnost)</li>
+                <li>@Html.TextBoxFor(m => m.Djelatnost)</li>
+
+                <li class="form-title">@Html.LabelFor(m => m.OIB)</li>
+                <li>@Html.TextBoxFor(m => m.OIB)</li>
+
+                <li class="form-title">@Html.LabelFor(m => m.Opis)</li>
+                <li>@Html.TextBoxFor(m => m.Opis)</li>
+
+                <li class="form-title">@Html.LabelFor(m => m.Webpage)</li>
+                <li>@Html.TextBoxFor(m => m.Webpage)</li>
+
+                <li class="form-title">@Html.LabelFor(m => m.BrojZaposlenih)</li>
+                <li>@Html.TextBoxFor(m => m.BrojZaposlenih)</li>
+
+                <li class="form-title">@Html.LabelFor(m => m.Telefon)</li>
+                <li>@Html.TextBoxFor(m => m.Telefon)</li>
+
+                <li class="form-title">@Html.LabelFor(m => m.Grad)</li>
+                <li>@Html.TextBoxFor(m => m.Grad)</li>
+
+                <li class="form-title">@Html.LabelFor(m => m.Drzava)</li>
+                <li>@Html.TextBoxFor(m => m.Drzava)</li>
+            </ol>
+            <input type="submit" value="Register" class="btn btn-success pull-right" />
+        </fieldset>
+    }
+</section>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

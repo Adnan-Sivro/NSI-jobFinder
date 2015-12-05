@@ -4,42 +4,35 @@
     ViewBag.Title = "Log in";
 }
 
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-</hgroup>
+<section id="loginForm" class="login-reg-content">
+    <p>Use a local account to log in</p>
+    @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
 
-<section id="loginForm">
-<h2>Use a local account to log in.</h2>
-@using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
+        <fieldset>
+            <legend>Log in Form</legend>
+            <ol>
+                <li class="form-title">@Html.LabelFor(m => m.Username)</li>
+                <li>@Html.TextBoxFor(m => m.Username)</li>
+                <li>@Html.ValidationMessageFor(m => m.Username)</li>
 
-    <fieldset>
-        <legend>Log in Form</legend>
-        <ol>
-            <li>
-                @Html.LabelFor(m => m.Username)
-                @Html.TextBoxFor(m => m.Username)
-                @Html.ValidationMessageFor(m => m.Username)
-                
-            </li>
-            <li>
-                @Html.LabelFor(m => m.Password)
-                @Html.PasswordFor(m => m.Password)
-                @Html.ValidationMessageFor(m => m.Password)
-            </li>      
-            <li>
-                @Html.LabelFor(m => m.RememberMe)
-                @Html.CheckBoxFor(m=>m.RememberMe)
-                @Html.ValidationMessageFor(m => m.RememberMe)
-            </li>     
-        </ol>
-        <input type="submit" value="Log in" />
-    </fieldset>
-    <p>
-        @Html.ActionLink("Register", "Register") if you don't have an account.
-    </p>
-}
+                <li class="form-title">@Html.LabelFor(m => m.Password)</li>
+                <li>@Html.PasswordFor(m => m.Password)</li>
+                <li>@Html.ValidationMessageFor(m => m.Password)</li>
+
+                <li class="form-title">
+                    @Html.LabelFor(m => m.RememberMe) &nbsp; @Html.CheckBoxFor(m => m.RememberMe)
+                    @Html.ValidationMessageFor(m => m.RememberMe)
+                </li>
+            </ol>
+            <input type="submit" value="Log in" class="btn btn-primary pull-right" />
+        </fieldset>
+        <p style="margin-top: 40px;">
+            If you don't have an account, <span class="register-link">@Html.ActionLink("register here", "Register").</span>
+        </p>
+    }
 </section>
 
 
