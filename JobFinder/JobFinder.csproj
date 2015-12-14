@@ -231,6 +231,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\OfferModel.cs" />
     <Compile Include="Models\oglasi.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -244,6 +245,7 @@
     <Compile Include="Models\RegisterEmployerModel.cs" />
     <Compile Include="Models\RegisterEmployeeModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
+    <Compile Include="Models\ViewOffersModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -453,6 +455,7 @@
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\CloseDialog.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -519,6 +522,7 @@
     <Content Include="Views\Posloprimac\DodavanjeBiografije.cshtml" />
     <Content Include="Views\Account\ContinueRegistrationEmployee.cshtml" />
     <Content Include="Views\Account\ContinueRegistrationEmployer.cshtml" />
+    <Content Include="Views\Posloprimac\PregledOglasa.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

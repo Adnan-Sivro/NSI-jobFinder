@@ -21,7 +21,47 @@ namespace JobFinder.Controllers
             dbm.Kategorije = dc.kategorije.ToArray();
             return View("DodavanjeBiografije", dbm);
         }
-        
+
+        private void PopulateOffersAndCategories(ViewOffersModel dbm)
+        {
+            try
+            {
+                bazaEntities be = new bazaEntities();
+                var offersFromDb = be.oglasi.ToList();
+                var offersVModel = new List<OfferModel>();
+                if (offersFromDb != null && offersFromDb.Count != 0)
+                {
+                    foreach (var offer in offersFromDb)
+                    {
+                        OfferModel offerModel = new OfferModel
+                        {
+                            BrojPozicija = offer.broj_pozicija != null ? (int)offer.broj_pozicija : 0,
+                            DatumObjave = offer.datum_objave != null ? offer.datum_objave.Value.ToShortDateString() : string.Empty,
+                            DatumZavrsetka = offer.datum_zavrsetka != null ? offer.datum_zavrsetka.Value.ToShortDateString() : string.Empty,
+                            IdKategorije = offer.idkategorije != null ? (int)offer.idkategorije : 0,
+                            KontaktEmail = offer.kontakt_email,
+                            NazivPozicije = offer.naziv_pozicije,
+                            Spol = offer.spol,
+                            TextOglasa = offer.text_oglasa,
+                            TipOglasa = offer.tip_oglasa
+                        };
+                        if (offer.kategorije != null && !string.IsNullOrEmpty(offer.kategorije.naziv))
+                            offerModel.NazivKategorije = offer.kategorije.naziv;
+
+                        offersVModel.Add(offerModel);
+                    }
+                    dbm.offers = offersVModel;
+                }
+                var categoriesFromDb = be.kategorije.ToList();
+                dbm.Categories = new List<string>();
+                foreach (var cat in categoriesFromDb)
+                    dbm.Categories.Add(cat.naziv);
+            }
+            catch (Exception e)
+            {
+
+            } 
+        }
         public ActionResult DodavanjeBiografije()
         {
             BiografijeKategorijeModel dbm = new BiografijeKategorijeModel();
@@ -29,6 +69,24 @@ namespace JobFinder.Controllers
 
             dbm.Kategorije = dc.kategorije.ToArray();
             return View("DodavanjeBiografije", dbm);
+        }
+
+        public ActionResult PregledPoslova()
+        {
+            ViewOffersModel dbm = new ViewOffersModel();
+            PopulateOffersAndCategories(dbm);
+            return View("PregledOglasa", dbm);
+        }
+
+        public ActionResult FilterOffersByCategory(string CategoryName)
+        {
+            ViewOffersModel model = new ViewOffersModel();
+            PopulateOffersAndCategories(model);
+
+            var matching = model.offers.Where(x => x.NazivKategorije == CategoryName).ToList();
+            model.offers = matching;
+
+            return View("PregledOglasa", model);
         }
 
         [HttpPost]
@@ -62,6 +120,19 @@ namespace JobFinder.Controllers
             }
 
             return View("DodavanjeBiografije", bdm);
+        }
+
+        [HttpPost]
+        public void ApplyForJob(string emailTxt, string contactEmail)
+        {
+            if (string.IsNullOrEmpty(emailTxt))
+                emailTxt = "Hello!" + Environment.NewLine 
+                    + "I would like to get in touch and learn more about the job you are offering." 
+                    + Environment.NewLine
+                    + "Best regards, " + Environment.NewLine + User.Identity.Name;
+            ApiKontroler k = new ApiKontroler();
+            k.SendEmail("Potvrda Registracije", emailTxt , contactEmail);
+            return;
         }
     }
 }

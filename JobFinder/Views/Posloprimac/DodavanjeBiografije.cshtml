@@ -1,249 +1,257 @@
 ﻿@model JobFinder.Models.BiografijeKategorijeModel
 
-<div id="slider-addoffer-wrapper" class="wrapper">
-    <div class="pagewidth">
-        <div class="slider">
-            <h1>POST A <span>BIOGRAPHY</span></h1>
-        </div>
-        <div class="search-box">
-            @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
-            {
-                <div class="row">
-                    <div class="col-md-3" style="padding-top: 35px; padding-left: 25px; font-size: 16px; color:white">
-                        Search for job with YOUJOB
-                    </div>
-                    <div class="col-md-3"><input type="text" placeholder="SEARCH FOR WORK" id="box1"></div>
-                    <div class="col-md-3"><input type="text" placeholder="POSITION" id="box2"></div>
-                    <div class="col-md-3"><input type="submit" value="SEARCH JOBS" id="btn-search"></div>
-                </div>
-            }
-        </div>
-    </div>
-</div>
-<div id="post-job-wrapper" class="wrapper">
-    <div class="pagewidth">
-        <div class="left-side">
-            <div class="box1">
-                <h1>Great bio advices</h1>
-                <ol style="list-style-type: circle; padding-left: 0;">
-                    <li>Focus On What Makes You Unique</li>
-                    <li>Keep It Simple</li>
-                    <li>Avoid Clichés + Unnecessary Details</li>
-                    <li>If You Can’t Write To Save Your Life, Find Someone Who Can</li>
-                    <li>Update It At Least Once A Year</li>
-                </ol>
+    <div id="slider-addoffer-wrapper" class="wrapper">
+        <div class="pagewidth">
+            <div class="slider">
+                <h1>POST A <span>BIOGRAPHY</span></h1>
             </div>
-        </div>
-        <div class="right-side">
-            <div class="box">
-                <div class="add-bio-form">
-                    <h1>ADD BIOGRAPHY</h1>
-                    @using (Html.BeginForm("DodavanjeBiografije", "Posloprimac", FormMethod.Post))
-                    {
-                        @Html.AntiForgeryToken()
-                        @Html.ValidationSummary(true)
-
-                        <div class="left-box">
-                            <ul>
-                                <li class="styled-select right-box">
-                                    @Html.DropDownListFor(m => m.idkategorije, new MultiSelectList(Model.Kategorije, "idkategorije", "naziv"), "--Select category-- ")
-                                </li>
-
-                                <li>@Html.LabelFor(m => m.Biografije.idealan_posao)</li>
-                                <li>@Html.TextBoxFor(m => m.Biografije.idealan_posao)</li>
-                                
-                                <li>@Html.LabelFor(m => m.Biografije.zanimanje)</li>
-                                <li>@Html.TextBoxFor(m => m.Biografije.zanimanje)</li>
-                                
-                                <li>@Html.LabelFor(m => m.Biografije.kompetencije)</li>
-                                <li>@Html.TextAreaFor(m => m.Biografije.kompetencije)</li>
-                                
-                                <li>@Html.LabelFor(m => m.Biografije.radno_iskustvo)</li>
-                                <li>@Html.TextAreaFor(m => m.Biografije.radno_iskustvo)</li>
-                            </ul>
-                            <div class="pull-right">
-                                <input type="submit" value="ADD BIOGRAPHY" id="submit" style="margin-left: 35px;margin-top: 15px;background:#257fd2;color: #fff;border: 1px solid #257fd2;font-size: 12px;border-radius: 3px;padding: 12px 53px">
-                            </div>
+            <div class="search-box">
+                @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+                {
+                    <div class="row">
+                        <div class="col-md-3" style="padding-top: 35px; padding-left: 25px; font-size: 16px; color:white">
+                            Search for job with YOUJOB
                         </div>
-                    }
-                </div>
-
+                        <div class="col-md-3"><input type="text" placeholder="SEARCH FOR WORK" id="box1"></div>
+                        <div class="col-md-3"><input type="text" placeholder="POSITION" id="box2"></div>
+                        <div class="col-md-3"><input type="submit" value="SEARCH JOBS" id="btn-search"></div>
+                    </div>
+                }
             </div>
         </div>
     </div>
-</div>
-
-<div id="about-us-wrapper" class="wrapper">
-    <div class="pagewidth">
-        <h1><span>SAY</span> ABOUT US</h1>
-        <div class="underline"></div>
-        <div class="rectangle"><div class="previous_arrow"></div></div>
-        <ul id="about-slider" data-next="#about-us-wrapper .rectangle .next_arrow" data-cycle-carousel-slide-dimension=95% data-prev="#about-us-wrapper .rectangle .previous_arrow" data-cycle-fx=carousel data-cycle-timeout=3000 data-cycle-speed="1000" data-cycle-slides="> li" data-cycle-carousel-visible=2>
-            <li>
-                <img src="~/Content/assets/img/worker1.png" class="photo">
-                <h1>ANNA NOVAK</h1>
-                <h2>MARKETING CONSULTANT</h2>
-                <p><span>Sed ut perspiciatis unde omnis iste</span><br />natus error sit voluptatem accusantium doloremque laudantium</p>
-            </li>
-            <li>
-                <img src="~/Content/assets/img/worker2.png" class="photo">
-                <h1>ADAM KOWALSKI</h1>
-                <h2>GRAPHIC WEBDESIGNER</h2>
-                <p><span>Sed ut perspiciatis unde omnis iste</span><br />natus error sit voluptatem accusantium doloremque laudantium</p>
-            </li>
+<div class="row sub-menu">
+    <nav class="pull-left">
+        <ul id="menu">
+            <li>@Html.ActionLink("View offers", "PregledPoslova", "Posloprimac")</li>
+            <li>@Html.ActionLink("Add biography", "DodavanjeBiografije", "Posloprimac")</li>
         </ul>
-        <div class="rectangle" id="next"><div class="next_arrow"></div></div>
-        <script>
-            $(function () {
-                $('#about-slider').cycle({
-
-                });
-            });
-        </script>
-    </div>
+    </nav>
 </div>
-<div id="award-wrapper" class="wrapper">
-    <div class="pagewidth">
-        <ul>
-            <li>
-                <h1>182 000 <span>jobs offer</span></h1>
-                <p>Sed ut perspiciatis unde omnis iste natus error</p>
-            </li>
-            <li>
-                <h1>7 500 <span>registered companies</span></h1>
-                <p>Sed ut perspiciatis unde omnis iste natus error</p>
-            </li>
-            <li>
-                <h1>15 500 <span>satisfied customers</span></h1>
-                <p>Sed ut perspiciatis unde omnis iste natus error</p>
-            </li>
-            <li>
-                <h1>2 500 <span>job categories</span></h1>
-                <p>Sed ut perspiciatis unde omnis iste natus error</p>
-            </li>
-        </ul>
-        <div class="clear"></div>
-        <div id="button"><a href="">Prizes and Awards</a></div>
-    </div>
-</div>
-<img src="~/Content/assets/img/tweet_icon.png" id="tweet-icon">
-<div id="slide-wrapper" class="wrapper">
-
-    <div class="background"></div>
-
-    <ul id="custom-pager"></ul>
-    <div class="clear"></div>
-
-</div>
-<script>
-    $(function () {
-        $('#twitter-cycle').cycle({});
-    });
-</script>
-
-<div id="footer-wrapper" class="wrapper">
-    <div class="pagewidth">
-        <div class="top">
+    <div id="post-job-wrapper" class="wrapper">
+        <div class="pagewidth">
             <div class="left-side">
-                <ul class="main">
-                    <li>
-                        <h1>Information</h1>
-                        <ul>
-                            <li><a href="">job search basics</a></li>
-                            <li><a href="">Job applications</a></li>
-                            <li><a href="">Best sites for job listings</a></li>
-                            <li><a href="">Cover letter tips & examplse</a></li>
-                            <li><a href="">Resume tips & examples</a></li>
-                            <li><a href="">Interview questions & advice</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <h1>NEED TO KNOW</h1>
-                        <ul>
-                            <li><a href="">How to get a new job fast</a></li>
-                            <li><a href="">best way to apply for jobs online</a></li>
-                            <li><a href="">interview questions & answers</a></li>
-                            <li><a href="">resume & cover letter samples</a></li>
-                            <li><a href="">how to resign from a job</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <h1>NEWSLETTER</h1>
-                        <p class="news">news on jobs,keep up</p>
-                        <form>
-                            <input type="text" placeholder="E-MAIL ADRESS">
-                            <div id="send"><div class="icon-form"></div></div>
-                        </form>
-
-                    </li>
-                </ul>
+                <div class="box1">
+                    <h1>Great bio advices</h1>
+                    <ol style="list-style-type: circle; padding-left: 0;">
+                        <li>Focus On What Makes You Unique</li>
+                        <li>Keep It Simple</li>
+                        <li>Avoid Clichés + Unnecessary Details</li>
+                        <li>If You Can’t Write To Save Your Life, Find Someone Who Can</li>
+                        <li>Update It At Least Once A Year</li>
+                    </ol>
+                </div>
             </div>
             <div class="right-side">
-                <div class="header">
-                    <h1>you<span>job</span></h1>
-                    <p class="slash">/</p>
-                    <h2>contact</h2>
+                <div class="box">
+                    <div class="add-bio-form">
+                        <h1>ADD BIOGRAPHY</h1>
+                        @using (Html.BeginForm("DodavanjeBiografije", "Posloprimac", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true)
+
+                            <div class="left-box">
+                                <ul>
+                                    <li class="styled-select right-box">
+                                        @Html.DropDownListFor(m => m.idkategorije, new MultiSelectList(Model.Kategorije, "idkategorije", "naziv"), "--Select category-- ")
+                                    </li>
+
+                                    <li>@Html.LabelFor(m => m.Biografije.idealan_posao)</li>
+                                    <li>@Html.TextBoxFor(m => m.Biografije.idealan_posao)</li>
+
+                                    <li>@Html.LabelFor(m => m.Biografije.zanimanje)</li>
+                                    <li>@Html.TextBoxFor(m => m.Biografije.zanimanje)</li>
+
+                                    <li>@Html.LabelFor(m => m.Biografije.kompetencije)</li>
+                                    <li>@Html.TextAreaFor(m => m.Biografije.kompetencije)</li>
+
+                                    <li>@Html.LabelFor(m => m.Biografije.radno_iskustvo)</li>
+                                    <li>@Html.TextAreaFor(m => m.Biografije.radno_iskustvo)</li>
+                                </ul>
+                                <div class="pull-right">
+                                    <input type="submit" value="ADD BIOGRAPHY" id="submit" style="margin-left: 35px;margin-top: 15px;background:#257fd2;color: #fff;border: 1px solid #257fd2;font-size: 12px;border-radius: 3px;padding: 12px 53px">
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="about-us-wrapper" class="wrapper">
+        <div class="pagewidth">
+            <h1><span>SAY</span> ABOUT US</h1>
+            <div class="underline"></div>
+            <div class="rectangle"><div class="previous_arrow"></div></div>
+            <ul id="about-slider" data-next="#about-us-wrapper .rectangle .next_arrow" data-cycle-carousel-slide-dimension=95% data-prev="#about-us-wrapper .rectangle .previous_arrow" data-cycle-fx=carousel data-cycle-timeout=3000 data-cycle-speed="1000" data-cycle-slides="> li" data-cycle-carousel-visible=2>
+                <li>
+                    <img src="~/Content/assets/img/worker1.png" class="photo">
+                    <h1>ANNA NOVAK</h1>
+                    <h2>MARKETING CONSULTANT</h2>
+                    <p><span>Sed ut perspiciatis unde omnis iste</span><br />natus error sit voluptatem accusantium doloremque laudantium</p>
+                </li>
+                <li>
+                    <img src="~/Content/assets/img/worker2.png" class="photo">
+                    <h1>ADAM KOWALSKI</h1>
+                    <h2>GRAPHIC WEBDESIGNER</h2>
+                    <p><span>Sed ut perspiciatis unde omnis iste</span><br />natus error sit voluptatem accusantium doloremque laudantium</p>
+                </li>
+            </ul>
+            <div class="rectangle" id="next"><div class="next_arrow"></div></div>
+            <script>
+                $(function () {
+                    $('#about-slider').cycle({
+
+                    });
+                });
+            </script>
+        </div>
+    </div>
+    <div id="award-wrapper" class="wrapper">
+        <div class="pagewidth">
+            <ul>
+                <li>
+                    <h1>182 000 <span>jobs offer</span></h1>
+                    <p>Sed ut perspiciatis unde omnis iste natus error</p>
+                </li>
+                <li>
+                    <h1>7 500 <span>registered companies</span></h1>
+                    <p>Sed ut perspiciatis unde omnis iste natus error</p>
+                </li>
+                <li>
+                    <h1>15 500 <span>satisfied customers</span></h1>
+                    <p>Sed ut perspiciatis unde omnis iste natus error</p>
+                </li>
+                <li>
+                    <h1>2 500 <span>job categories</span></h1>
+                    <p>Sed ut perspiciatis unde omnis iste natus error</p>
+                </li>
+            </ul>
+            <div class="clear"></div>
+            <div id="button"><a href="">Prizes and Awards</a></div>
+        </div>
+    </div>
+    <img src="~/Content/assets/img/tweet_icon.png" id="tweet-icon">
+    <div id="slide-wrapper" class="wrapper">
+
+        <div class="background"></div>
+
+        <ul id="custom-pager"></ul>
+        <div class="clear"></div>
+
+    </div>
+    <script>
+        $(function () {
+            $('#twitter-cycle').cycle({});
+        });
+    </script>
+
+    <div id="footer-wrapper" class="wrapper">
+        <div class="pagewidth">
+            <div class="top">
+                <div class="left-side">
+                    <ul class="main">
+                        <li>
+                            <h1>Information</h1>
+                            <ul>
+                                <li><a href="">job search basics</a></li>
+                                <li><a href="">Job applications</a></li>
+                                <li><a href="">Best sites for job listings</a></li>
+                                <li><a href="">Cover letter tips & examplse</a></li>
+                                <li><a href="">Resume tips & examples</a></li>
+                                <li><a href="">Interview questions & advice</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <h1>NEED TO KNOW</h1>
+                            <ul>
+                                <li><a href="">How to get a new job fast</a></li>
+                                <li><a href="">best way to apply for jobs online</a></li>
+                                <li><a href="">interview questions & answers</a></li>
+                                <li><a href="">resume & cover letter samples</a></li>
+                                <li><a href="">how to resign from a job</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <h1>NEWSLETTER</h1>
+                            <p class="news">news on jobs,keep up</p>
+                            <form>
+                                <input type="text" placeholder="E-MAIL ADRESS">
+                                <div id="send"><div class="icon-form"></div></div>
+                            </form>
+
+                        </li>
+                    </ul>
+                </div>
+                <div class="right-side">
+                    <div class="header">
+                        <h1>you<span>job</span></h1>
+                        <p class="slash">/</p>
+                        <h2>contact</h2>
+                    </div>
+                    <div class="clear"></div>
+                    <ul>
+                        <li>
+                            <p class="title">youjob</p>
+                            <p>ul.zielonogorska</p>
+                            <p>22-457 warsaw</p>
+                        </li>
+                        <li>
+                            <p>(12) <span>3456 78 910</span></p>
+                        </li>
+                    </ul>
                 </div>
                 <div class="clear"></div>
-                <ul>
-                    <li>
-                        <p class="title">youjob</p>
-                        <p>ul.zielonogorska</p>
-                        <p>22-457 warsaw</p>
-                    </li>
-                    <li>
-                        <p>(12) <span>3456 78 910</span></p>
-                    </li>
+            </div>
+            <div class="bottom">
+                <ul class="list1">
+                    <li><a href="">HOME</a></li>
+                    <li><a href="">OFFER</a></li>
+                    <li><a href="">FIND JOB</a></li>
+                    <li><a href="">BROWSE OFFERS</a></li>
+                    <li><a href="">FAQ</a></li>
+                    <li><a href="">CONTACT</a></li>
+                </ul>
+                <div class="copyright">
+                    <p>copyright 2014- all rights reserved</p>
+                    <p>Project: <span>Kulstudio</span></p>
+                </div>
+                <ul class="list2">
+                    <li><div class="twitter"></div></li>
+                    <li><div class="facebook"></div></li>
+                    <li><div class="vimeo"></div></li>
+                    <li><div class="youtube"></div></li>
                 </ul>
             </div>
             <div class="clear"></div>
         </div>
-        <div class="bottom">
-            <ul class="list1">
-                <li><a href="">HOME</a></li>
-                <li><a href="">OFFER</a></li>
-                <li><a href="">FIND JOB</a></li>
-                <li><a href="">BROWSE OFFERS</a></li>
-                <li><a href="">FAQ</a></li>
-                <li><a href="">CONTACT</a></li>
-            </ul>
-            <div class="copyright">
-                <p>copyright 2014- all rights reserved</p>
-                <p>Project: <span>Kulstudio</span></p>
-            </div>
-            <ul class="list2">
-                <li><div class="twitter"></div></li>
-                <li><div class="facebook"></div></li>
-                <li><div class="vimeo"></div></li>
-                <li><div class="youtube"></div></li>
-            </ul>
-        </div>
-        <div class="clear"></div>
     </div>
-</div>
 
-<script type="text/javascript">
-    function selectIngredient(select) {
-        var option = select.options[select.selectedIndex];
-        var ul = select.parentNode.getElementsByTagName('ul')[0];
+    <script type="text/javascript">
+        function selectIngredient(select) {
+            var option = select.options[select.selectedIndex];
+            var ul = select.parentNode.getElementsByTagName('ul')[0];
 
-        var choices = ul.getElementsByTagName('input');
-        for (var i = 0; i < choices.length; i++)
-            if (choices[i].value == option.value)
-                return;
+            var choices = ul.getElementsByTagName('input');
+            for (var i = 0; i < choices.length; i++)
+                if (choices[i].value == option.value)
+                    return;
 
-        var li = document.createElement('li');
-        var input = document.createElement('input');
-        var text = document.createTextNode(option.firstChild.data);
+            var li = document.createElement('li');
+            var input = document.createElement('input');
+            var text = document.createTextNode(option.firstChild.data);
 
-        input.type = 'hidden';
-        input.name = 'ingredients[]';
-        input.value = option.value;
+            input.type = 'hidden';
+            input.name = 'ingredients[]';
+            input.value = option.value;
 
-        li.appendChild(input);
-        li.appendChild(text);
-        li.setAttribute('onclick', 'this.parentNode.removeChild(this);');
+            li.appendChild(input);
+            li.appendChild(text);
+            li.setAttribute('onclick', 'this.parentNode.removeChild(this);');
 
-        ul.appendChild(li);
-    }
-</script>
+            ul.appendChild(li);
+        }
+    </script>
