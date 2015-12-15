@@ -1,6 +1,5 @@
 ﻿@model JobFinder.Models.OglasiKategorijeModel
 
- 
 
 
     <div class="clear"></div>
@@ -11,23 +10,31 @@
 
             </div>
             <div class="search-box">
-                <h1>SEARCH JOB WITH <span>YOUJOB</span></h1>
-                <form>
-                    <input type="text" placeholder="SEARCHED FOR WORK" id="box1">
-                    <input type="text" placeholder="POSITION" id="box2">
-                    <input type="submit" value="SEARCH JOBS" id="btn-search">
-                </form>
+                @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+                {
+                    <div class="row">
+                        <div class="col-md-3" style="padding-top: 35px; padding-left: 25px; font-size: 16px; color:white">
+                            Search for job with YOUJOB
+                        </div>
+                        <div class="col-md-3"><input type="text" placeholder="SEARCH FOR WORK" id="box1"></div>
+                        <div class="col-md-3"><input type="text" placeholder="POSITION" id="box2"></div>
+                        <div class="col-md-3"><input type="submit" value="SEARCH JOBS" id="btn-search"></div>
+                    </div>
+                }
             </div>
             <div class="clear"></div>
         </div>
     </div>
+<div class="row sub-menu">
+    <nav class="pull-left">
+        <ul id="menu">
+            <li>@Html.ActionLink("View your offers", "Index", "Poslodavac")</li>
+        </ul>
+    </nav>
+</div>
     <div class="clear"></div>
     <div id="post-job-wrapper" class="wrapper">
-        <div class="pagewidth">
-            <p>POSITION:</p>
-            <a href="">HOME</a>
-            <a href="">JOB OFFER</a>
-            <a href="" id="last">CONSTRUCTION / SURVEYING</a>
+        <div class="pagewidth">         
             <div class="clear"></div>
             <div class="left-side">
                 <div class="box1">
@@ -59,50 +66,50 @@
 
         <ul>
             <li>
-                @Html.TextBoxFor(m => m.Oglasi.naziv_pozicije, htmlAttributes: new { @placeholder = "Name of work" })
+                @Html.TextBoxFor(m => m.Oglasi.naziv_pozicije, htmlAttributes: new {@placeholder = "Name of work"})
+                @Html.ValidationMessageFor(m => m.Oglasi.naziv_pozicije)
             </li>
+           
 
             <li>
-                @Html.TextBoxFor(m => m.Oglasi.kontakt_email, htmlAttributes: new { @placeholder = "Contact email" })
+                @Html.TextBoxFor(m => m.Oglasi.kontakt_email, htmlAttributes: new {@placeholder = "Contact email"})
+                @Html.ValidationMessageFor(m => m.Oglasi.kontakt_email)
             </li>
+            
             <li>
-                @Html.TextBoxFor(m => m.Oglasi.broj_pozicija, htmlAttributes: new { @placeholder = "Number of positions" })
+                @Html.TextBoxFor(m => m.Oglasi.broj_pozicija, htmlAttributes: new {@placeholder = "Number of positions"})
+                @Html.ValidationMessageFor(m => m.Oglasi.broj_pozicija)
             </li>
+            
             <li>
-                @Html.TextBoxFor(m => m.Oglasi.datum_zavrsetka, htmlAttributes: new { @placeholder = "Expiration date", type = "text", onfocus = "(this.type = 'date')", id = "date" })
-
+                @Html.TextBoxFor(m => m.Oglasi.datum_zavrsetka, htmlAttributes: new {@placeholder = "Expiration date", type = "text", onfocus = "(this.type = 'date')", id = "date"})
+                @Html.ValidationMessageFor(m => m.Oglasi.datum_zavrsetka)
             </li>
+          
             <li>
-                @Html.TextAreaFor(m => m.Oglasi.text_oglasa, htmlAttributes: new { @placeholder = "DESCRIPTION" })
+                @Html.TextAreaFor(m => m.Oglasi.text_oglasa, htmlAttributes: new {@placeholder = "DESCRIPTION"})
+                @Html.ValidationMessageFor(m => m.Oglasi.text_oglasa)
             </li>
+          
 
         </ul>
-    </div>
-    <div class="right-box">
-        <div class="styled-select">
+
+        <div class="styled-select right-box">
             @Html.DropDownListFor(m => m.Oglasi.spol, new List<SelectListItem>
             {
                 new SelectListItem {Text = "Both", Value = "Both"},
                 new SelectListItem {Text = "Male", Value = "Male"},
                 new SelectListItem {Text = "Female", Value = "Female"}
             }, "--Gender--")
-
-
-            <div style="padding-left: 35px">
-                Add hire categories
-                <ul>
-                    <li onclick="this.parentNode.removeChild(this);">
-                        <input type="hidden" name="ingredients[]" value="Cheese"/>
-
-                    </li>
-                </ul>
-            </div>
-            @Html.DropDownListFor(m => m.kategorijeid, new MultiSelectList(Model.Kategorije, "idkategorije", "naziv"),"--Select category-- ")
         </div>
-
-
-       
-        <input type="submit" value="ADD JOB OFFER" id="submit">
+        <div class="styled-select right-box">
+             @Html.DropDownListFor(m => m.kategorijeid, new MultiSelectList(Model.Kategorije, "idkategorije", "naziv"), "--Select category-- ")
+             @Html.ValidationMessageFor(m => m.kategorijeid)
+        </div>
+        
+        <div class="pull-right">
+            <input type="submit" value="ADD JOB OFFER" id="submit" style="margin-left: 35px;margin-top: 15px;background:#257fd2;color: #fff;border: 1px solid #257fd2;font-size: 12px;border-radius: 3px;padding: 12px 53px">
+        </div>
 
     </div>
 
@@ -241,7 +248,7 @@
             <div class="bottom">
                 <ul class="list1">
                     <li><a href="">HOME</a></li>
-                    <li><a href="">OFFER</a></li>
+                    <li><a href="">OFFER</></li>
                     <li><a href="">FIND JOB</a></li>
                     <li><a href="">BROWSE OFFERS</a></li>
                     <li><a href="">FAQ</a></li>

@@ -412,7 +412,7 @@ textarea:-ms-input-placeholder {color:#000;font-weight: 300;font-family: 'Roboto
 			#post-job-wrapper .left-side .box2 .phone .p2{background: url('../img/phone_addoffer.png') no-repeat left;padding-left: 45px;font-size: 18px;font-weight: 200;line-height: 45px;height: 40px;}
 			#post-job-wrapper .left-side .box2 .phone .p2 span{font-weight: 300;}
 /*right-side*/			
-#post-job-wrapper .right-side{width:79%;float:left;margin-left: 8px;margin-top: 20px;}
+#post-job-wrapper .right-side{width:79%;float:left;margin-left: 8px;margin-top: 20px; }
 				/*box*/
 				#post-job-wrapper .right-side .box{overflow:hidden;border: 1px solid #ffffff;border-radius: 2px;}
 				#post-job-wrapper .right-side .box h1{font-size: 22px;padding-top: 40px;margin-left: 30px;font-weight: 400;color: #fe5a00;}
@@ -531,26 +531,26 @@ textarea:-ms-input-placeholder {color:#000;font-weight: 300;font-family: 'Roboto
 #content-wrapper .right-side{float: left;width: 80%;}
 #content-wrapper .right-side li{margin-top: -20px;}
 				/*box*/
-				#content-wrapper .right-side .box{border: 1px solid #ececec;margin-left: 30px;margin-top: 60px;overflow: hidden;} 
+				#content-wrapper .right-side .box{border: 1px solid rgb(134, 177, 163);margin-left: 30px;margin-top: 60px;overflow: hidden;background-color: white;} 
 				#content-wrapper .right-side .box #photo{width: 150px;margin-left: 25px;margin-top: 20px;float: left;margin-bottom: 20px;margin-right: 25px;}
 						/*top*/
-						#content-wrapper .right-side .box .top{margin-top: 50px;margin-left: 232px;border-bottom: 1px solid #ececec;padding-bottom: 20px;margin-right: 85px;}
+						#content-wrapper .right-side .box .top{margin-top: 50px;margin-left: 20px;border-bottom: 1px solid #ececec;padding-bottom: 20px;margin-right: 85px;}
 						#content-wrapper .right-side .box .top h1{font-size: 18px;font-weight: 400;margin-bottom: 10px;color: #4F5357;}
 						#content-wrapper .right-side .box .top p{margin-right: 113px;font-weight: 300;margin-bottom: 20px;line-height: 37px;font-size: 13px;color: #7D8286;}
-						#content-wrapper .right-side .box .top .date{border-left: 1px solid #ececec;font-weight: 300;font-size:13px;font-family: 'Roboto';margin-left: 530px;padding-bottom: 10px;padding-top: 10px; color: #7D8286;}
+						#content-wrapper .right-side .box .top .date{border-left: 1px solid #ececec;font-weight: 300; padding-left: 10px; font-size:13px;font-family: 'Roboto';margin-left: 530px;padding-bottom: 10px;padding-top: 10px; color: #7D8286;}
 						/*bottom*/
-						#content-wrapper .right-side .box .bottom{margin-top: 30px;}
+						#content-wrapper .right-side .box .bottom{margin-top: 30px;margin-bottom: 90px;}
 						#content-wrapper .right-side .box .bottom p{margin-left: 30px;padding-left: 35px;height: 25px;line-height: 25px;font-size: 12px;font-weight: 400;}
 						#content-wrapper .right-side .box .bottom p span{font-weight: 400;color: #A7ACB0;}
 						#content-wrapper .right-side .box .bottom .time{background: url('../img/clock_offer.png') no-repeat left;margin-right: 40px;}
 						#content-wrapper .right-side .box .bottom .sale{background: url('../img/wallet_offer.png') no-repeat left;height: 33px;padding-left: 45px;margin-right: 120px;}
 						#content-wrapper .right-side .box .bottom a{color: #fff;}
-						#content-wrapper .right-side .box .bottom #apply{background: #257fd2;padding: 12px 40px;margin-right: 10px;}
+						#content-wrapper .right-side .box .bottom #apply{background: #17FD22;padding: 12px 40px;margin-right: 10px;}
 						#content-wrapper .right-side .box .bottom #apply:hover{background: #fe5a00;padding: 12px 40px;margin-right: 10px;}
-						#content-wrapper .right-side .box .bottom #view-more{background: #fe5a00; padding: 12px 28px;}
+						#content-wrapper .right-side .box .bottom #view-more{background: #d9534f; padding: 12px 28px;}
 						#content-wrapper .right-side .box .bottom #apply-extended{background: #257fd2;padding: 12px 40px;margin-right: 10px;margin-left: -58px;}
 						#content-wrapper .right-side .box .bottom #apply-extended:hover{background: #fe5a00;padding: 12px 40px;margin-right: 10px;margin-left: -58px;}
-						#content-wrapper .right-side .box .bottom #view-more-extended{background: #fe5a00; padding: 12px 28px;}
+						#content-wrapper .right-side .box .bottom #view-more-extended{background: #afeeee; padding: 12px 28px;}
 /*nav*/
 #content-wrapper .nav{margin-left: 560px;text-align: center;margin-top: 70px;}
 #content-wrapper .nav li{float:left;line-height: 20px}

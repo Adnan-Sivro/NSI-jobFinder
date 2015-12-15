@@ -7,6 +7,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel.DataAnnotations;
+using System.Web.UI.WebControls;
+
 namespace JobFinder.Models
 {
     using System;
@@ -16,10 +19,14 @@ namespace JobFinder.Models
     {
         public int idoglasi { get; set; }
         public int idposlodavci { get; set; }
+        [Required(ErrorMessage = "This fild is required")]
+        
         public string naziv_pozicije { get; set; }
         public Nullable<System.DateTime> datum_objave { get; set; }
+        [Required(ErrorMessage = "This fild is required")]
         public Nullable<System.DateTime> datum_zavrsetka { get; set; }
         public string text_oglasa { get; set; }
+        [Required(ErrorMessage = "This fild is required")]
         public Nullable<int> broj_pozicija { get; set; }
         public string spol { get; set; }
         public string kontakt_email { get; set; }
