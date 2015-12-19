@@ -1,0 +1,135 @@
+﻿@model JobFinder.Models.ViewOffersModel
+@{
+    ViewBag.Title = "Pregled Oglasa";
+}
+
+ @{
+     <div id="slider-addoffer-wrapper" class="wrapper">
+        <div class="pagewidth">
+            <div class="slider">
+                <h1>VIEW <span>OFFERS</span></h1>
+            </div>
+            <div class="search-box">
+                @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+                {
+                    <div class="row">
+                        <div class="col-md-3" style="padding-top: 35px; padding-left: 25px; font-size: 16px; color:white">
+                            Search for job with YOUJOB
+                        </div>
+                        <div class="col-md-3"><input type="text" placeholder="SEARCH FOR WORK" id="box1"></div>
+                        <div class="col-md-3"><input type="text" placeholder="POSITION" id="box2"></div>
+                        <div class="col-md-3"><input type="submit" value="SEARCH JOBS" id="btn-search"></div>
+                    </div>
+                }
+            </div>
+        </div>
+     </div>
+    <div class="row sub-menu">
+        <nav class="pull-left">
+            <ul id="menu">
+                <li>@Html.ActionLink("View offers", "PregledPoslova", "Posloprimac")</li>
+                <li>@Html.ActionLink("Add biography", "DodavanjeBiografije", "Posloprimac")</li>
+            </ul>
+        </nav>
+    </div>
+    <div id="post-job-wrapper" class="wrapper">
+        <div class="pagewidth">
+            <div class="left-side">
+                <div class="box1">
+                    <h1>CATEGORIES</h1>
+                    <ul style="list-style-type: circle; padding-left: 0;">
+                        @foreach (var cat in Model.Categories)
+                        {
+                            <li>@Html.ActionLink(cat, "FilterOffersByCategory", "Posloprimac", new { CategoryName = cat, model = Model }, null)</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="right-side">
+                <ul>
+                    @if (Model != null && Model.offers != null && Model.offers.Count != 0)
+                    {
+                        foreach (var offer in Model.offers)
+                    {
+                        <li>
+                            <div class="box job-offer">
+                                <div class="top">
+                                    <div class="col-md-12">@Html.DisplayFor(o => offer.NazivPozicije)</div>
+                                    <hr />
+                                    <div class="col-md-12 wrap-word">@Html.DisplayFor(o => offer.TextOglasa)</div>
+                                    <hr />
+                                    <br />
+                                    <div class="col-md-12">
+                                        <p class="col-md-3">@Html.LabelFor(o => offer.DatumObjave)</p>
+                                        <p class="col-md-9">@Html.DisplayFor(o => offer.DatumObjave)</p>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <p class="col-md-3">@Html.LabelFor(o => offer.DatumZavrsetka)</p>
+                                        <p class="col-md-9">@Html.DisplayFor(o => offer.DatumZavrsetka)</p>
+                                    </div>                                    
+                                    <div class="col-md-12">
+                                        <p class="col-md-3">@Html.LabelFor(o => offer.BrojPozicija)</p>
+                                        <p class="col-md-9">@Html.DisplayFor(o => offer.BrojPozicija)</p>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <p class="col-md-3">@Html.LabelFor(o => offer.Spol)</p>
+                                        <p class="col-md-9">@Html.DisplayFor(o => offer.Spol)</p>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <p class="col-md-3">@Html.LabelFor(o => offer.KontaktEmail)</p>
+                                        <p class="col-md-9">@Html.DisplayFor(o => offer.KontaktEmail)</p>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <p class="col-md-3">@Html.LabelFor(o => offer.TipOglasa)</p>
+                                        <p class="col-md-9">@Html.DisplayFor(o => offer.TipOglasa)</p>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <p class="col-md-3">@Html.LabelFor(o => offer.NazivKategorije)</p>
+                                        <p class="col-md-9">@Html.DisplayFor(o => offer.NazivKategorije)</p>
+                                    </div>                                    
+                                </div>
+                                <div class="bottom">
+                                    <input type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#applyForJob" value="Apply" />
+                                </div>
+                            </div>
+                        </li>
+                    }
+                    }
+                    else
+                    {
+                        <li><p>Sorry, nothing found :(</p></li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="modal fade" id="applyForJob" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">Apply for a job</h4>
+            </div>
+            @using (Html.BeginForm("ApplyForJob", "Posloprimac", FormMethod.Post))
+            {
+            <div class="modal-body">
+                <div>
+                    <span>
+                        You are about to apply for a job.
+                    </span>
+                </div>
+                <div>
+                    <textarea id="emailTxt" name="emailTxt"></textarea>
+                    <input type="hidden" name="contactEmail" id="contactEmail"  />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="modalCloseBtn" data-dismiss="modal">Close</button>
+                <button type="submit" name="SendEmailButton" id="SendEmailButton" class="btn btn-primary">Send email</button>
+            </div>
+            }
+        </div>
+    </div>
+</div>
