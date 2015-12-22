@@ -121,18 +121,31 @@ namespace JobFinder.Controllers
 
             return View("DodavanjeBiografije", bdm);
         }
+        
+        [HttpPost]
+        public void SaveContactEmailToViewData(string contactEmail)
+        {
+            if (Session["ContactEmail"] == null)
+                Session.Add("ContactEmail", contactEmail);
+            else
+                Session["ContactEmail"] = contactEmail;
+        }
 
         [HttpPost]
-        public void ApplyForJob(string emailTxt, string contactEmail)
+        public ActionResult ApplyForJob(string emailTxt)
         {
+            string contactEmail = Session["ContactEmail"].ToString();
+            //if (string.IsNullOrEmpty(contactEmail))
+            ////return error to the screen
+            //    return;
             if (string.IsNullOrEmpty(emailTxt))
                 emailTxt = "Hello!" + Environment.NewLine 
                     + "I would like to get in touch and learn more about the job you are offering." 
                     + Environment.NewLine
                     + "Best regards, " + Environment.NewLine + User.Identity.Name;
             ApiKontroler k = new ApiKontroler();
-            k.SendEmail("Potvrda Registracije", emailTxt , contactEmail);
-            return;
+            k.SendEmail("Prijava na oglas", emailTxt , contactEmail);
+            return RedirectToAction("PregledPoslova");
         }
     }
 }

@@ -3,6 +3,8 @@
     ViewBag.Title = "Pregled Oglasa";
 }
 
+<script src="~/Scripts/ApplyForJob.js" type="text/javascript"></script>
+
  @{
      <div id="slider-addoffer-wrapper" class="wrapper">
         <div class="pagewidth">
@@ -14,7 +16,7 @@
                 {
                     <div class="row">
                         <div class="col-md-3" style="padding-top: 35px; padding-left: 25px; font-size: 16px; color:white">
-                            Search for job with YOUJOB
+                            Search for job
                         </div>
                         <div class="col-md-3"><input type="text" placeholder="SEARCH FOR WORK" id="box1"></div>
                         <div class="col-md-3"><input type="text" placeholder="POSITION" id="box2"></div>
@@ -89,7 +91,7 @@
                                     </div>                                    
                                 </div>
                                 <div class="bottom">
-                                    <input type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#applyForJob" value="Apply" />
+                                    <button type="button" class="btn btn-primary pull-right applyForJobBtn" value="@offer.KontaktEmail" data-toggle="modal" data-target="#applyForJob">Apply for job</button>
                                 </div>
                             </div>
                         </li>
