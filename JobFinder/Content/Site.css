@@ -816,6 +816,10 @@ tr.pager td {
     margin-bottom: 20px;
     padding: 15px;
 }
+
+.job-offer td>p>label{
+    color: cadetblue;
+}
 .wrap-word{
     word-wrap: break-word;
 }

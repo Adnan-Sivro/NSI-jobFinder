@@ -393,7 +393,7 @@ textarea:-ms-input-placeholder {color:#000;font-weight: 300;font-family: 'Roboto
 	[13.Posting job section]
 ------------------------------------------------------------------*/
 #post-job-wrapper p{float: left;font-size: 14px;font-weight: 300;}
-#post-job-wrapper a{text-decoration: none;color: #a1a7ae;float: left;background: url('../img/arrow_offer.png') no-repeat right;padding-right: 20px;margin-left: 10px;font-size: 14px;font-weight: 300;}
+#post-job-wrapper a{text-decoration: none;color: #a1a7ae;background: url('../img/arrow_offer.png') no-repeat right;padding-right: 20px;margin-left: 10px;font-size: 14px;font-weight: 300;}
 #post-job-wrapper #last{color:#74a5de;background:none;font-weight: 400;}
 /*left-side*/
 #post-job-wrapper .left-side{width: 20%;color: #fff;float: left;padding-bottom: 50px;}
@@ -414,7 +414,7 @@ textarea:-ms-input-placeholder {color:#000;font-weight: 300;font-family: 'Roboto
 /*right-side*/			
 #post-job-wrapper .right-side{width:79%;float:left;margin-left: 8px;margin-top: 20px; }
 				/*box*/
-				#post-job-wrapper .right-side .box{overflow:hidden;border: 1px solid #ffffff;border-radius: 2px;}
+				#post-job-wrapper .right-side .box{overflow:hidden;border: 1px solid #fe5a00;;border-radius: 2px;}
 				#post-job-wrapper .right-side .box h1{font-size: 22px;padding-top: 40px;margin-left: 30px;font-weight: 400;color: #fe5a00;}
 				#post-job-wrapper .right-side .box #work{margin-left: 30px;padding-left: 15px;font-size: 14px;border: 1px solid #ececec;padding-top: 10px;padding-bottom: 10px;padding-right: 75%;margin-top: 20px;margin-bottom: 20px;border-radius: 2px;}
 								/*box-left*/

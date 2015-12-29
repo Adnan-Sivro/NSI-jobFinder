@@ -39,7 +39,7 @@
             <div class="left-side">
                 <div class="box1">
                     <h1>CATEGORIES</h1>
-                    <ul style="list-style-type: circle; padding-left: 0;">
+                    <ul style="list-style-type: circle; padding-left: 0; background: #257fd2;">
                         @foreach (var cat in Model.Categories)
                         {
                             <li>@Html.ActionLink(cat, "FilterOffersByCategory", "Posloprimac", new { CategoryName = cat, model = Model }, null)</li>
@@ -56,39 +56,47 @@
                         <li>
                             <div class="box job-offer">
                                 <div class="top">
-                                    <div class="col-md-12">@Html.DisplayFor(o => offer.NazivPozicije)</div>
-                                    <hr />
-                                    <div class="col-md-12 wrap-word">@Html.DisplayFor(o => offer.TextOglasa)</div>
-                                    <hr />
+                                    <h3 class="col-md-12">@Html.DisplayFor(o => offer.NazivPozicije)</h3>
+                                    <div class="col-md-12 wrap-word" style="font-size: 20px; margin-bottom: 25px;">@Html.DisplayFor(o => offer.TextOglasa)</div>
                                     <br />
-                                    <div class="col-md-12">
-                                        <p class="col-md-3">@Html.LabelFor(o => offer.DatumObjave)</p>
-                                        <p class="col-md-9">@Html.DisplayFor(o => offer.DatumObjave)</p>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <p class="col-md-3">@Html.LabelFor(o => offer.DatumZavrsetka)</p>
-                                        <p class="col-md-9">@Html.DisplayFor(o => offer.DatumZavrsetka)</p>
-                                    </div>                                    
-                                    <div class="col-md-12">
-                                        <p class="col-md-3">@Html.LabelFor(o => offer.BrojPozicija)</p>
-                                        <p class="col-md-9">@Html.DisplayFor(o => offer.BrojPozicija)</p>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <p class="col-md-3">@Html.LabelFor(o => offer.Spol)</p>
-                                        <p class="col-md-9">@Html.DisplayFor(o => offer.Spol)</p>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <p class="col-md-3">@Html.LabelFor(o => offer.KontaktEmail)</p>
-                                        <p class="col-md-9">@Html.DisplayFor(o => offer.KontaktEmail)</p>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <p class="col-md-3">@Html.LabelFor(o => offer.TipOglasa)</p>
-                                        <p class="col-md-9">@Html.DisplayFor(o => offer.TipOglasa)</p>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <p class="col-md-3">@Html.LabelFor(o => offer.NazivKategorije)</p>
-                                        <p class="col-md-9">@Html.DisplayFor(o => offer.NazivKategorije)</p>
-                                    </div>                                    
+                                    <table style="margin-top:10px">
+                                        <tr class="row">
+                                            <td>
+                                                <p class="col-md-5">@Html.LabelFor(o => offer.DatumObjave)</p>
+                                                <p class="col-md-7">@Html.DisplayFor(o => offer.DatumObjave)</p>
+                                            </td>
+                                            <td>
+                                                <p class="col-md-5">@Html.LabelFor(o => offer.DatumZavrsetka)</p>
+                                                <p class="col-md-7">@Html.DisplayFor(o => offer.DatumZavrsetka)</p>
+                                            </td>
+                                        </tr>
+                                        <tr class="row">
+                                            <td>
+                                                <p class="col-md-5">@Html.LabelFor(o => offer.BrojPozicija)</p>
+                                                <p class="col-md-7">@Html.DisplayFor(o => offer.BrojPozicija)</p>
+                                            </td>
+                                            <td>
+                                                <p class="col-md-5">@Html.LabelFor(o => offer.Spol)</p>
+                                                <p class="col-md-7">@Html.DisplayFor(o => offer.Spol)</p>
+                                            </td>
+                                        </tr>
+                                        <tr class="row">
+                                            <td>
+                                                <p class="col-md-5">@Html.LabelFor(o => offer.KontaktEmail)</p>
+                                                <p class="col-md-7">@Html.DisplayFor(o => offer.KontaktEmail)</p>
+                                            </td>
+                                            <td>
+                                                <p class="col-md-5">@Html.LabelFor(o => offer.TipOglasa)</p>
+                                                <p class="col-md-7">@Html.DisplayFor(o => offer.TipOglasa)</p>
+                                            </td>
+                                        </tr>
+                                        <tr class="row">
+                                            <td>
+                                                <p class="col-md-5">@Html.LabelFor(o => offer.NazivKategorije)</p>
+                                                <p class="col-md-7">@Html.DisplayFor(o => offer.NazivKategorije)</p>
+                                            </td>
+                                        </tr>
+                                    </table>                                 
                                 </div>
                                 <div class="bottom">
                                     <button type="button" class="btn btn-primary pull-right applyForJobBtn" value="@offer.KontaktEmail" data-toggle="modal" data-target="#applyForJob">Apply for job</button>
